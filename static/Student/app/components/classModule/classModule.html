@@ -1,0 +1,62 @@
+<div class="wrapper wrapper-content">
+	<div class="p-w-md">
+		<div class="ibox float-e-margins" animate-on-change='currentSlide'>
+			<div class="ibox-content" ng-show="!completed">
+				<uib-progressbar class="progress-striped active" max="totalSlide" value="currentSlide+1" type="info"><i>{{currentSlide + 1 + "/" + totalSlide}}</i></uib-progressbar>
+				<h2 class="text-center" style="text-transform:capitalize;">Quality Improvement Basics: {{selectedSlide.type}}</h2><br>
+				<p><b>{{selectedSlide.slideDesc}}</b></p><hr>
+				
+				<!-- TEST <img src="/static/Resources/logoMobile.jpg" class="img-responsive"></img>-->
+				
+				
+				<div id="videoSlide" ng-class="{{slideClass}}" ng-show="selectedSlide.type =='video'">
+					<div class="text-center">
+						<video controls style="max-width:600px;">
+						  <source ng-src="{{selectedSlide.videoPath}}">
+						  Your browser does not support HTML5 video.
+						</video>
+					</div>
+				</div>
+				
+				<div id="assignmentSlide" ng-class="{{slideClass}}" ng-show="selectedSlide.type =='assignment'">
+					<form>
+						<div ng-repeat="question in selectedSlide.assignment track by $index" >
+							{{$index+1 + ') ' + question.QuestDesc}}
+							
+							<!-- Use for multiple choice question -->
+							<div ng-show="question.QuestType=='MC'">
+								<div ng-repeat="answerChoice in question.AnsOptions">
+									<input type="radio" value="{{answerChoice}}" ng-model="question.SelectedAns"> {{answerChoice}}<br>
+								</div>
+							</div>
+							
+							<!-- Use for long answer question -->
+							<div ng-show="question.QuestType=='Long'">
+								<br>
+								<textarea class="form-control" rows="5" ng-model="question.SelectedAns"> {{answerChoice}}</textarea><br>
+							</div>
+							
+							<br><hr>
+						</div>
+					</form>
+				</div>
+				
+				<br>
+				<div>
+					<button class="btn btn-success" ng-show="currentSlide != '0'" ng-click="previousSlide()"> <i class="fa fa-arrow-left"></i>Previous </button>
+					<button class="btn btn-success pull-right" ng-show="currentSlide != totalSlide -1" ng-click="nextSlide()">Next <i class="fa fa-arrow-right"></i> </button>
+					<button class="btn btn-info pull-right" ng-show="currentSlide == totalSlide-1" ng-click="submitModule()"> <i class="fa fa-check"></i> Submit </button>
+				</div>
+				<br><br>
+			</div>
+			
+			<div class="ibox-content" animate-on-change='completed' ng-show="completed">
+				<div class="text-center">
+					<h2> The module has been submitted.</h2>
+					<h3>Rate this module: </h3>
+					<uib-rating ng-model="rate" max="5" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null" titles="['one','two','three']" aria-labelledby="default-rating"></uib-rating>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

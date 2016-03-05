@@ -1,0 +1,78 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="p-w-md">
+		<div class="ibox float-e-margins">
+			<div class="ibox-content">
+				<h3 class="text-center">My Grades</h3>
+				<hr>
+				<h4><strong>In Progress</strong></h4>
+				<hr>
+			
+				<uib-accordion close-others="false">
+					<uib-accordion-group is-open="status.open" ng-repeat="course in studentClasses" panel-class="panel-primary" ng-if="!course.completed">
+					  <uib-accordion-heading>
+					    {{course.class}}
+					    <i class="pull-right fa" ng-class="{'fa-chevron-down': status.open, 'fa-chevron-right': !status.open}"></i>
+					    <div class="pull-right">View Grades</div>
+					  </uib-accordion-heading>
+					  <p>Current grade: Available when completed</p>
+					  <table class="table table-bordered">
+					  	<thead style="background-color: #D9D9D9;">
+					  		<tr>
+					  			<th>Assignment ID</th>
+					  			<th>Grade</th>
+					  		</tr>
+					  	</thead>
+				  	
+					  	<tbody>
+					  		<tr ng-repeat="assignment in assignments" ng-show="assignment.class == course.class">
+					  			<td>{{assignment.assignment_id}}</td>
+					  			<td>{{assignment.grade}}</td>
+					  		</tr>
+					  	</tbody>
+				  	
+					  </table>
+				  
+					</uib-accordion-group>
+			
+				  </uib-accordion>
+			  
+			 
+			
+				<hr>		
+				<h4><strong>Completed</strong></h4>
+				<hr>
+
+				<uib-accordion close-others="false">
+					<uib-accordion-group is-open="status.open" ng-repeat="course in studentClasses" panel-class="panel-primary" ng-if="course.completed">
+					  <uib-accordion-heading>
+					    {{course.class}}
+					    <i class="pull-right fa" ng-class="{'fa-chevron-down': status.open, 'fa-chevron-right': !status.open}"></i>
+					    <div class="pull-right">View Grades</div>
+					  </uib-accordion-heading>
+					  <p>Final grade: {{course.finalGrade}}</p>
+					  <table class="table table-bordered">
+					  	<thead style="background-color: #D9D9D9;">
+					  		<tr>
+					  			<th>Assignment ID</th>
+					  			<th>Grade</th>
+					  		</tr>
+					  	</thead>
+				  	
+					  	<tbody>
+					  		<tr ng-repeat="assignment in assignments" ng-show="assignment.class == course.class">
+					  			<td>{{assignment.assignment_id}}</td>
+					  			<td>{{assignment.grade}}</td>
+					  		</tr>
+					  	</tbody>
+				  	
+					  </table>
+				  
+					</uib-accordion-group>
+			
+				  </uib-accordion>
+
+			
+			</div>
+		</div>
+	</div>
+</div>

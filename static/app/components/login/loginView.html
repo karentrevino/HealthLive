@@ -1,0 +1,41 @@
+<br>
+<div class="container">
+	<div class="row">
+		<div class="col-sm-6">
+			<img src="static/assets/images/logoMobile.jpg" class="img-responsive"></img>
+			<img src="static/assets/images/QualityLogoRGB.jpg" class="img-responsive"></img>
+		</div>
+		
+		<div class="col-sm-6">
+			<div class="ibox">
+				<div class="ibox-title">
+					Login
+				</div>
+				<div class="ibox-content">
+					<form class="form form-horizontal">
+						<div class="form-group">
+						  <label class="col-md-2">Username </label>
+						  <div class="col-md-10">
+						  	<input type="text" class="form-control" ng-model="credentials.username" placeholder="Username">
+						  </div>
+						</div>
+						
+						<div class="form-group">
+						  <label class="col-md-2">Password</label>
+						  <div class="col-md-10">
+						  	<input type="password" class="form-control" ng-model="credentials.password" placeholder="Password"> 
+						  </div>
+						</div>
+					    <button type="button" value="Submit" class="btn btn-default btn-block"  ng-click="login()">Login</button>
+					</form>
+					
+					<div>
+						<br>
+						<small class="pull-right">Don't have an account? <a ui-sref="Signup">Sign up today.</a></small>
+						<br>
+					</div>
+				</div><!--ibox-content-->
+			</div><!--ibox-->
+		</div><!--col-sm-6-->
+	</div> <!--row-->
+</div><!--container-->
