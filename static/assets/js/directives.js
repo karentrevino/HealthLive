@@ -153,7 +153,7 @@ function minimalizaSidebar($timeout) {
  * Pass all functions into module
  */
 angular
-    .module('HotspotApp')
+    .module('HealthLive')
     .directive('pageTitle', pageTitle)
     .directive('sideNavigation', sideNavigation)
     .directive('iboxTools', iboxTools)

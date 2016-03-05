@@ -1,5 +1,5 @@
 angular  
-.module('HotspotApp')
+.module('HealthLive')
 .directive('animateOnChange', function($timeout) {
    return function(scope, element, attr) {
      scope.$watch(attr.animateOnChange, function(nv,ov) {
