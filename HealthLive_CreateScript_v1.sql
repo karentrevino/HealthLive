@@ -60,11 +60,11 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `HealthLive`.`Diet` (
   `calorieGoal` INT NOT NULL,
   `date` DATETIME NOT NULL,
-  `DidUser` INT NULL,
+  `idUser` INT NULL,
   PRIMARY KEY (`calorieGoal`, `date`),
-  INDEX `idUser_idx` (`DidUser` ASC),
-  CONSTRAINT `DidUser`
-    FOREIGN KEY (`DidUser`)
+  INDEX `idUser_idx` (`idUser` ASC),
+  CONSTRAINT `idUser`
+    FOREIGN KEY (`idUser`)
     REFERENCES `HealthLive`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -79,11 +79,11 @@ CREATE TABLE IF NOT EXISTS `HealthLive`.`Excercise` (
   `nameEx` VARCHAR(45) NOT NULL,
   `type` VARCHAR(45) NULL,
   `completed` TINYINT(1) NULL,
-  `EidUser` INT NULL,
+  `idUser` INT NULL,
   PRIMARY KEY (`datetime`, `nameEx`),
-  INDEX `EidUser_idx` (`EidUser` ASC),
-  CONSTRAINT `EidUser`
-    FOREIGN KEY (`EidUser`)
+  INDEX `idUser_idx` (`idUser` ASC),
+  CONSTRAINT `idUser`
+    FOREIGN KEY (`idUser`)
     REFERENCES `HealthLive`.`User` (`idUser`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
@@ -98,11 +98,11 @@ CREATE TABLE IF NOT EXISTS `HealthLive`.`Medicine` (
   `frequency` VARCHAR(45) NOT NULL,
   `duration` VARCHAR(45) NOT NULL,
   `time` DATETIME NULL,
-  `MidUser` INT NULL,
+  `idUser` INT NULL,
   PRIMARY KEY (`name`, `frequency`, `duration`),
-  INDEX `MidUser_idx` (`MidUser` ASC),
-  CONSTRAINT `MidUser`
-    FOREIGN KEY (`MidUser`)
+  INDEX `idUser_idx` (`idUser` ASC),
+  CONSTRAINT `idUser`
+    FOREIGN KEY (`idUser`)
     REFERENCES `HealthLive`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -115,11 +115,11 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `HealthLive`.`Sleep` (
   `duration` VARCHAR(45) NOT NULL,
   `datetime` DATETIME NOT NULL,
-  `SidUser` INT NULL,
+  `idUser` INT NULL,
   PRIMARY KEY (`duration`, `datetime`),
-  INDEX `SidUser_idx` (`SidUser` ASC),
-  CONSTRAINT `SidUser`
-    FOREIGN KEY (`SidUser`)
+  INDEX `idUser_idx` (`idUser` ASC),
+  CONSTRAINT `idUser`
+    FOREIGN KEY (`idUser`)
     REFERENCES `HealthLive`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
@@ -133,11 +133,11 @@ CREATE TABLE IF NOT EXISTS `HealthLive`.`Alchoholic drinks` (
   `amount` VARCHAR(45) NOT NULL,
   `datetime` DATETIME NOT NULL,
   `alcbyvol` VARCHAR(45) NULL,
-  `AidUser` INT NULL,
+  `idUser` INT NULL,
   PRIMARY KEY (`amount`, `datetime`),
-  INDEX `AidUser_idx` (`AidUser` ASC),
-  CONSTRAINT `AidUser`
-    FOREIGN KEY (`AidUser`)
+  INDEX `idUser_idx` (`idUser` ASC),
+  CONSTRAINT `idUser`
+    FOREIGN KEY (`idUser`)
     REFERENCES `HealthLive`.`User` (`idUser`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
