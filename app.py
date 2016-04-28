@@ -51,25 +51,27 @@ def get_all_users():
 #login, returns json of user
 @app.route ('/api/login', methods=['GET'])
 def login():
-	netid = request.args['netid']
-	user_db = Users.check_if_user_exists(netid)
+	email = request.args['email']
+	user_db = Users.check_if_user_exists(email)
 	count = 0
 	for users in user_db:
 		logged_user = users
 		count +=1
 	if count ==1:
 		user = {
-		'password': logged_user[0],
-		'role': logged_user[1],
-		'utsw_id': logged_user[2],
-		'net_id': logged_user[3],
+		'user_id': logged_user[0],
+		'email': logged_user[1],
+		'last_name': logged_user[2],
+		'first_name': logged_user[3],
+		'password': logged_user[4],
 		}
 	else:
 		user = {
+		'user_id': "",
+		'email': "",
+		'last_name': "",
+		'first_name': "",
 		'password': "",
-		'role':"" ,
-		'utsw_id':"",
-		'net_id':"" ,
 		}
 	return jsonify(user)
     

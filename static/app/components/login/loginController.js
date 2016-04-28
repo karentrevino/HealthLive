@@ -5,7 +5,7 @@ HealthLive.controller('loginController', ['$scope', '$location','$rootScope','$h
 		date = new Date();
 		$http.get('/api/login', {
         params: {
-            netid: $scope.credentials.username
+            email: $scope.credentials.username
         }}).success(function(data, status, headers, config) {
 	    $scope.user = data;	    
 	    $scope.status1 = status;

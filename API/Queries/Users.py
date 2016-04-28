@@ -7,9 +7,9 @@ def get_all_users():
 	cursor.execute("SELECT * FROM user")
 	table = cursor.fetchall()	
 	return table
-def check_if_user_exists(netid):
+def check_if_user_exists(email):
 	cursor = Database.db_connect()
-	cursor.execute("SELECT DISTINCT PW,Role,UTSW_ID,NET_ID FROM user WHERE NET_ID ="+str(netid))
+	cursor.execute("SELECT DISTINCT userID,email,lname,fname,password FROM user WHERE email ="+str(email))
 	table = cursor.fetchall()	
 	return table
 def user_profile_info(netid):
