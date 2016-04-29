@@ -3,19 +3,26 @@ HealthLive.controller('loginController', ['$scope', '$location','$rootScope','$h
 
 	$scope.login = function(){
 		date = new Date();
+		
+		
+		
 		$http.get('/api/login', {
         params: {
             email: $scope.credentials.username
         }}).success(function(data, status, headers, config) {
-	    $scope.user = data;	    
+	    $rootScope.user = data;	    
 	    $scope.status1 = status;
 	    //////////////////////////////
 	    //delete after debug
-	    console.log($scope.user)	    
-		console.log($scope.user.password);
+	    console.log($rootScope.user)	    
+		console.log($rootScope.user.password);
 		console.log($scope.credentials.password);
+		$rootScope.logged = true;
+
 		//////////////////////////////////////////
-		if ($scope.user.password == $scope.credentials.password){
+		if ($rootScope.user.password == $scope.credentials.password){
+			$cookieStore.put('logged', true)
+			$cookieStore.put('user', $rootScope.user)
 			$location.path('/home')
 		}
 		}).error(function(data, status) {

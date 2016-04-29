@@ -1,4 +1,4 @@
-var HealthLive = angular.module('HealthLive', ['ui.router','ui.bootstrap','ngAnimate','ngCookies','ngIdle', 'datatables']);
+var HealthLive = angular.module('HealthLive', ['ui.router','ui.bootstrap','ngAnimate','ngCookies','ngIdle', 'datatables','angularMoment']);
 
 HealthLive.config(function($stateProvider, $urlRouterProvider, IdleProvider, KeepaliveProvider) {   
    $urlRouterProvider.otherwise('/login');
@@ -9,6 +9,18 @@ HealthLive.config(function($stateProvider, $urlRouterProvider, IdleProvider, Kee
    .state('home', {
        url: "/home",
        templateUrl: "static/app/components/home/homeView.html",
+   })
+   
+   .state('login', {
+       url: "/login",
+       templateUrl: "static/app/components/login/loginView.html",
+	   controller: 'loginController',
+   })
+   
+   .state('sleep', {
+       url: "/sleep",
+       templateUrl: "static/app/components/sleep/sleepView.html",
+	   controller: 'sleepController',
    })
    
 

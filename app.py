@@ -75,42 +75,41 @@ def login():
 		}
 	return jsonify(user)
     
-# grades, returns student grades
-@app.route ('/api/grades', methods=['GET'])
-def get_grades():
-	netid = request.args['netid']
-	assignments = list()
+@app.route ('/api/getSleepData', methods=['GET'])
+def get_sleep_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
 
-	student_grades = Student.get_all_student_grades(netid)
-
-	for Assignment in student_grades:
-	    new_assignment ={
-	    'assignment_id' : Assignment[0],
-	    'grade' : Assignment[2],
-        'class' : Assignment[4] +" " + str(Assignment[5]),
-		}
-	    assignments.append(new_assignment)
-        
-	return jsonify(results=assignments)
     
-
-@app.route ('/api/studentClasses', methods=['GET'])
-def get_student_classes():
-	print(request.args['netid'])
-	netid = request.args['netid']
-	classes = list()
-
-	student_classes = Student.get_all_student_classes(netid)
-
-	for Class in student_classes:
-	    new_class ={
-        'class' : Class[0] +" " + str(Class[1]),
-        'completed' : Class[4],
-        'finalGrade' : Class[5],
+	sleepData = Users.get_sleep_data(userID, date)
+	print(sleepData)
+	sleep_day={'date': "", "duration": "", 'displayDate': date}
+    
+	for sleep in sleepData:
+		sleep_day['date'] = sleep[0]
+		sleep_day['duration'] = sleep[1]
+    
+	'''for users in user_db:
+		logged_user = users
+		count +=1
+	if count ==1:
+		user = {
+		'user_id': logged_user[0],
+		'email': logged_user[1],
+		'last_name': logged_user[2],
+		'first_name': logged_user[3],
+		'password': logged_user[4],
 		}
-	    classes.append(new_class)
-        
-	return jsonify(results=classes)
+	else:
+		user = {
+		'user_id': "",
+		'email': "",
+		'last_name': "",
+		'first_name': "",
+		'password': "",
+		}'''
+	return jsonify(sleep_day)
+
     
 @app.route ('/api/getProfileInfo', methods=['GET'])
 def user_profile_info():
