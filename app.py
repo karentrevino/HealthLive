@@ -109,6 +109,29 @@ def get_sleep_data():
 		'password': "",
 		}'''
 	return jsonify(sleep_day)
+    
+@app.route ('/api/addSleepData', methods=['GET'])
+def add_sleep_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	duration = request.args['Duration']
+
+    
+	check = Users.add_sleep_data(userID, date, duration)
+
+	return jsonify(check)
+    
+@app.route ('/api/editSleepData', methods=['GET'])
+def edit_sleep_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	duration = request.args['Duration']
+	print(date, userID, duration)
+    
+	check = Users.edit_sleep_data(userID, date, duration)
+
+	return jsonify(check)
+
 
     
 @app.route ('/api/getProfileInfo', methods=['GET'])
