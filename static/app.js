@@ -23,6 +23,12 @@ HealthLive.config(function($stateProvider, $urlRouterProvider, IdleProvider, Kee
 	   controller: 'sleepController',
    })
    
+   .state('diet', {
+       url: "/diet",
+       templateUrl: "static/app/components/diet/dietView.html",
+	   controller: 'dietController',
+   })
+   
 
     
 	;

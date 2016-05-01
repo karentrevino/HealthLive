@@ -1,7 +1,8 @@
 import flask
 from flask import jsonify, request
-from API.Queries import Student
+from API.Queries import Sleep
 from API.Queries import Users
+from API.Queries import Diet
 import httplib
 
 app = flask.Flask(__name__)
@@ -75,13 +76,14 @@ def login():
 		}
 	return jsonify(user)
     
+###########################################
 @app.route ('/api/getSleepData', methods=['GET'])
 def get_sleep_data():
 	date = request.args['Date']
 	userID = request.args['User_ID']
 
     
-	sleepData = Users.get_sleep_data(userID, date)
+	sleepData = Sleep.get_sleep_data(userID, date)
 	print(sleepData)
 	sleep_day={'date': "", "duration": "", 'displayDate': date}
     
@@ -89,25 +91,6 @@ def get_sleep_data():
 		sleep_day['date'] = sleep[0]
 		sleep_day['duration'] = sleep[1]
     
-	'''for users in user_db:
-		logged_user = users
-		count +=1
-	if count ==1:
-		user = {
-		'user_id': logged_user[0],
-		'email': logged_user[1],
-		'last_name': logged_user[2],
-		'first_name': logged_user[3],
-		'password': logged_user[4],
-		}
-	else:
-		user = {
-		'user_id': "",
-		'email': "",
-		'last_name': "",
-		'first_name': "",
-		'password': "",
-		}'''
 	return jsonify(sleep_day)
     
 @app.route ('/api/addSleepData', methods=['GET'])
@@ -117,7 +100,7 @@ def add_sleep_data():
 	duration = request.args['Duration']
 
     
-	check = Users.add_sleep_data(userID, date, duration)
+	check = Sleep.add_sleep_data(userID, date, duration)
 
 	return jsonify(check)
     
@@ -128,11 +111,66 @@ def edit_sleep_data():
 	duration = request.args['Duration']
 	print(date, userID, duration)
     
-	check = Users.edit_sleep_data(userID, date, duration)
+	check = Sleep.edit_sleep_data(userID, date, duration)
+
+	return jsonify(check)
+    
+@app.route ('/api/getDietData', methods=['GET'])
+def get_diet_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+
+    
+	mealData = Diet.get_diet_data(userID, date)
+	day_meals = []
+	diet_meal={'date': "", "calories": "", 'displayDate': date, "amount": "", "type": "", "foodOrDrink": "","name":""}
+    
+	for meal in mealData:
+		diet_meal={'date': "", "calories": "", 'displayDate': date, "amount": "", "type": "", "foodOrDrink": ""}
+		diet_meal['date'] = meal[0]
+		diet_meal['calories'] = meal[1]
+		diet_meal['amount'] = meal[2]
+		diet_meal['name'] = meal[3]
+		diet_meal['type'] = meal[4]
+		diet_meal['foodOrDrink'] = meal[5]
+		day_meals.append(diet_meal)
+
+	print(day_meals)
+	return jsonify(results=day_meals)
+    
+@app.route ('/api/addMealData', methods=['GET'])
+def add_meal_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	name = request.args['Name']
+	calories = request.args['Calories']
+	amount = request.args['Amount']
+	type = request.args['Type']
+	foodOrDrink = request.args['FoodOrDrink']
+
+
+    
+	check = Diet.add_meal_data(userID, date, name, amount,calories,type, foodOrDrink)
 
 	return jsonify(check)
 
+@app.route ('/api/editMealData', methods=['GET'])
+def edit_meal_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	name = request.args['Name']
+	calories = request.args['Calories']
+	amount = request.args['Amount']
+	type = request.args['Type']
+	foodOrDrink = request.args['FoodOrDrink']
 
+
+    
+	check = Diet.edit_meal_data(userID, date, name, amount,calories,type, foodOrDrink)
+
+	return jsonify(check)
+
+#############################################
     
 @app.route ('/api/getProfileInfo', methods=['GET'])
 def user_profile_info():
