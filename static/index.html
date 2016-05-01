@@ -44,6 +44,14 @@
   <!-- Footable -->
   <script src="/static/assets/js/plugins/footable/angular-footable.js"></script>
   <script src="/static/assets/js/plugins/footable/footable.all.min.js"></script>
+  <!-- Chart-->
+  
+  <script src="/static/assets/js/plugins/chartJs/Chart.min.js"></script>
+  <script src="/static/assets/js/plugins/chartJs/angular-chart.min.js"></script>
+  
+  <!-- Moment -->
+  <script src="/static/assets/js/moment.js"></script>
+  <script src="/static/assets/js/angular-moment.min.js"></script>
   
 	
 	<!-- Main apps -->
@@ -52,6 +60,7 @@
     <script src="/static/app/components/login/loginController.js"></script>
     <script src="/static/app/components/home/homeController.js"></script>
     <script src="/static/app/components/exercise/exerciseController.js"></script>
+	 <script src="/static/app/components/sleep/sleepController.js"></script>
 	  
     <script src="/static/assets/js/directives.js"></script>
 	<script src="/static/assets/js/animateDirective.js"></script>
@@ -61,7 +70,7 @@
 <!-- apply our angular app to our site -->
 <body ng-app="HealthLive" ng-controller="mainController">
  <nav class="navbar navbar-inverse">
-   <div class="container-fluid">
+   <div class="container">
      <div class="navbar-header">
        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar"> 
        		<span class="icon-bar"></span>
@@ -71,15 +80,24 @@
        <a class="navbar-brand" ui-sref="home">HealthLive</a>
      </div>
      <div class="collapse navbar-collapse" id="myNavbar">
-       <ul class="nav navbar-nav">
-         <li ui-sref-active="active"><a ui-sref="home">Home</a></li>
-         <li ui-sref-active="active"><a ui-sref="exercise"><i class="fa fa-bolt" aria-hidden="true"></i> Exercise</a></li>
+       <ul class="nav navbar-nav" ng-show='logged'>
+        <li ui-sref-active="active"><a ui-sref="home"><span class="fa fa-home"></span> Home</a></li>
+		    <li ui-sref-active="active"><a ui-sref="home"><span class="fa fa-cutlery"></span> Diet</a></li>
+		    <li ui-sref-active="active"><a ui-sref="home"><span class="fa fa-bicycle"></span> Exercise</a></li>
+		    <li ui-sref-active="active"><a ui-sref="sleep"><span class="fa fa-bar-chart"></span> Sleep</a></li>
+		    <li ui-sref-active="active"><a ui-sref="home"><span class="fa fa-heartbeat"></span> Medicine</a></li>
+		    <li ui-sref-active="active"><a ui-sref="home"><span class="fa fa-beer"></span> Alcohol</a></li>
+       </ul>
+       <ul class="nav navbar-nav navbar-right">
+         <li><a ng-click="logout()" href="#" ><span class="fa fa-sign-out"></span> Logout</a></li>
        </ul>
       
      </div>
    </div>
  </nav>
-  <div ui-view ></div>
+ <div class="container-fluid">
+  	<div ui-view ></div>
+</div>
   <div>
 </body>
 </html>

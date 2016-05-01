@@ -25,25 +25,16 @@ def get_all_users():
 
 def check_user_password(netid, pw):
 	cursor = Database.db_connect()
-	##cursor.execute("SELECT DISTINCT PW,Role,UTSW_ID,NET_ID FROM user WHERE NET_ID ="+str(netid))
-	cursor.execute("SELECT UID FROM users WHERE NETID =\'"+str(netid)+"\'")
-	u = cursor.fetchall()	
-	
-	print 'u:' + str(u[0][0])
-	cursor.execute("SELECT PW FROM user_password WHERE UID ="+str(u[0][0]))
-	p = cursor.fetchall();
-	if p[0][0] == pw:
-		print 'confirmed'
-		return 'Confirmed'
-	else:
-		print 'error'
-		return 'Error'
-	#return table
+	cursor.execute("SELECT DISTINCT userID,email,lname,fname,password FROM user WHERE email = \'"+str(email)+'\';')
+	table = cursor.fetchall()	
+	return table
+
 def user_profile_info(netid):
 	cursor = Database.db_connect()
 	cursor.execute("SELECT FNAME, LNAME, UID, NETID, EMAIL, ROLE FROM users WHERE NETID =\'"+str(netid)+"\'")
 	table = cursor.fetchall();
 	return table
+
 def changePassword(utsw_id,PW):
 	cursor = Database.db_connect()
 	cursor.execute('START TRANSACTION;')
@@ -51,6 +42,7 @@ def changePassword(utsw_id,PW):
 	cursor.execute('COMMIT;')
 	cursor.close()
 	return 1
+
 def get_next_id():
 	cursor = Database.db_connect()
 	i = 1000000000
@@ -68,3 +60,28 @@ def check_if_user_exists(email):
 	cursor.execute("SELECT DISTINCT userID,email,lname,fname,password FROM user WHERE email =\'"+str(email)+"\'")
 	table = cursor.fetchall()	
 	return table
+
+def get_sleep_data(user_id, date):
+	cursor = Database.db_connect()
+	cursor.execute("SELECT date, duration FROM sleep WHERE DATE(date) = DATE(\'" + str(date) + '\') and userID = \'' + str(user_id) + '\';')
+	table = cursor.fetchall()
+	return table
+
+def add_sleep_data(user_id, date,duration):
+	cursor = Database.db_connect()
+	cursor.execute('START TRANSACTION;')
+	print("INSERT into sleep (date,duration,userID) VALUES( \'" + str(date) +'\' , \'' + str(duration) + '\', \'' + str(user_id) + '\') ;')
+	cursor.execute("INSERT into sleep (date,duration,userID) VALUES( \'" + str(date) +'\' , \'' + str(duration) + '\', \'' + str(user_id) + '\') ;')
+	cursor.execute('COMMIT;')
+	table = cursor.fetchall()
+	return table
+    
+def edit_sleep_data(user_id, date,duration):
+	cursor = Database.db_connect()
+	cursor.execute('START TRANSACTION;')
+	print("UPDATE sleep SET duration = \'" + str(duration) + "\' WHERE userID= \'" + str(user_id) +"\' and DATE(date) = DATE(\'" + str(date) + "\');")
+	cursor.execute("UPDATE sleep SET duration = \'" + str(duration) + "\' WHERE userID= \'" + str(user_id) +"\' and DATE(date) = DATE(\'" + str(date) + "\');")
+	cursor.execute('COMMIT;')
+	table = cursor.fetchall()
+	return table
+
