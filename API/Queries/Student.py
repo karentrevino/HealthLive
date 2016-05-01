@@ -24,3 +24,19 @@ def get_student_info(netid):
     cursor.execute()
     table = cursor.fetchall()
     return table
+
+def import_user(fn, mn, ln, email, role, account_type, account_status):
+	pw = id_generator()
+	# id_num, netid will be returned by the function
+	args = (fn, mn, ln, email, role, account_type, account_status, pw, 0, '0')
+	cursor = Database.db_connect()
+	cursor.execute('START TRANSACTION;')
+	cursor.callproc('addUser', args)
+	cursor.execute('SELECT @_addUser_8, @_addUser_9')
+	result_args = cursor.fetchall();
+	cursor.execute('COMMIT;')
+	print 'result_args: ' + str(result_args)
+	print 'Added_user:'+str(result_args[0])
+	cursor.close()
+	# returns created UID, netid, and password
+	return result_args[0][0], result_args[0][1], pw

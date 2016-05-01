@@ -1,6 +1,6 @@
 import flask
 from flask import jsonify, request
-from API.Queries import Student
+from API.Queries import Exercise
 from API.Queries import Users
 import httplib
 
@@ -24,6 +24,22 @@ def get_all_classes():
 		classes.append(new_class)
 
 	return jsonify(results=classes)
+
+def import_user(fn, mn, ln, email, role, account_type, account_status):
+	pw = id_generator()
+	# id_num, netid will be returned by the function
+	args = (fn, mn, ln, email, role, account_type, account_status, pw, 0, '0')
+	cursor = Database.db_connect()
+	cursor.execute('START TRANSACTION;')
+	cursor.callproc('addUser', args)
+	cursor.execute('SELECT @_addUser_8, @_addUser_9')
+	result_args = cursor.fetchall();
+	cursor.execute('COMMIT;')
+	print 'result_args: ' + str(result_args)
+	print 'Added_user:'+str(result_args[0])
+	cursor.close()
+	# returns created UID, netid, and password
+	return result_args[0][0], result_args[0][1], pw
 
 #get all users, returns json list of users
 @app.route ('/api/viewUsers', methods=['GET'])
