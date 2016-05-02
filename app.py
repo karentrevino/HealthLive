@@ -118,6 +118,7 @@ def edit_sleep_data():
 @app.route ('/api/getDietData', methods=['GET'])
 def get_diet_data():
 	date = request.args['Date']
+	print("------------------" + date)
 	userID = request.args['User_ID']
 
     
@@ -135,7 +136,7 @@ def get_diet_data():
 		diet_meal['foodOrDrink'] = meal[5]
 		day_meals.append(diet_meal)
 
-	print(day_meals)
+	print("meals!!!!!!", day_meals)
 	return jsonify(results=day_meals)
     
 @app.route ('/api/addMealData', methods=['GET'])
@@ -147,7 +148,7 @@ def add_meal_data():
 	amount = request.args['Amount']
 	type = request.args['Type']
 	foodOrDrink = request.args['FoodOrDrink']
-
+	print("add meals!!!!!!", date)
 
     
 	check = Diet.add_meal_data(userID, date, name, amount,calories,type, foodOrDrink)

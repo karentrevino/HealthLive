@@ -4,6 +4,7 @@ from flask import jsonify
 
 def get_diet_data(user_id, date):
 	cursor = Database.db_connect()
+	print("SELECT date, calories, amount, name, type, foodOrDrink FROM meal WHERE DATE(date) = DATE(\'" + str(date) + '\') and userID = \'' + str(user_id) + '\';')
 	cursor.execute("SELECT date, calories, amount, name, type, foodOrDrink FROM meal WHERE DATE(date) = DATE(\'" + str(date) + '\') and userID = \'' + str(user_id) + '\';')
 	table = cursor.fetchall()
 	return table
@@ -21,7 +22,7 @@ def add_meal_data(userID, date, name,amount, calories, type, foodOrDrink):
 def edit_meal_data(userID, date, name,amount, calories, type, foodOrDrink):
 	cursor = Database.db_connect()
 	cursor.execute('START TRANSACTION;')
-	#print("UPDATE sleep SET duration = \'" + str(duration) + "\' WHERE userID= \'" + str(user_id) +"\' and DATE(date) = DATE(\'" + str(date) + "\');")
+	print("UPDATE meal SET name = \'" + str(name) + '\', amount = \'' + str(amount) + '\', calories = \''+ str(calories)+ '\', type = \''+ str(type)+ '\', foodOrDrink = \''+ str(foodOrDrink) + "\' WHERE userID= \'" + str(userID) +"\' and date = \'" + str(date) + "\';")
 	cursor.execute("UPDATE meal SET name = \'" + str(name) + '\', amount = \'' + str(amount) + '\', calories = \''+ str(calories)+ '\', type = \''+ str(type)+ '\', foodOrDrink = \''+ str(foodOrDrink) + "\' WHERE userID= \'" + str(userID) +"\' and date = \'" + str(date) + "\';")
 	cursor.execute('COMMIT;')
 	table = cursor.fetchall()

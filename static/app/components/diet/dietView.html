@@ -19,6 +19,10 @@
 		        <tr ng-repeat="(day,data) in mealData | orderBy:'displayDate'">
 		            <td><b>{{day| amDateFormat: 'dddd, MMMM Do'}}</b></td>
 		            <td>
+						<b>Calorie Goal: </b>
+						<input type="text" >
+						<br><hr>
+						
 						<table class="table table-striped table-bordered table-hover dataTables-example"> 
 					        <thead>
 						        <tr>
@@ -42,7 +46,7 @@
 							</tbody>
 						</table>
 						
-							<div  class="panel panel-default" ng-show="mode == 'add' || mode=='edit' ">
+							<div  class="panel panel-default" ng-show="(mode == 'add' || mode =='edit') && day == editData.displayDate ">
 								<div class="panel-heading"><span ng-show="mode == 'add'">Add</span><span ng-show="mode == 'edit'">Edit</span></div>
 								<div class="panel-body form-inline">
 								    <div class="form-group">

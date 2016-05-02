@@ -19,30 +19,42 @@ HealthLive.controller('dietController', ['$scope', '$location','$rootScope','$ht
 		
 		$scope.buildData= function(mondayDate){
 			$scope.mealData = {}
+			//console.log(moment().day(1).format("YYYY-MM-DD HH:mm:ss"))
+			
+			var MondayDate = moment(mondayDate).day(1).format("YYYY-MM-DD HH:mm:ss")
+			var TuesdayDate = moment(mondayDate).day(2).format("YYYY-MM-DD HH:mm:ss")
+			var WednesdayDate = moment(mondayDate).day(3).format("YYYY-MM-DD HH:mm:ss")
+			var ThursdayDate = moment(mondayDate).day(4).format("YYYY-MM-DD HH:mm:ss")
+			var FridayDate = moment(mondayDate).day(5).format("YYYY-MM-DD HH:mm:ss")
+			var SaturdayDate = moment(mondayDate).day(6).format("YYYY-MM-DD HH:mm:ss")
+			var SundayDate = moment(mondayDate).day(7).format("YYYY-MM-DD HH:mm:ss")
+			
+			
 			//console.log(moment(mondayDate).day("Monday").toDate())
-			var Monday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Monday").toDate(),}})
+			var Monday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": MondayDate,}})
 			
 
 	
-		    var Tuesday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Tuesday").toDate(),}})
+		    var Tuesday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": TuesdayDate,}})
 		
-		    var Wednesday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Wednesday").toDate(),}})
+		    var Wednesday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": WednesdayDate,}})
 			
-		    var Thursday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Thursday").toDate(),}})
-		    var Friday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date":moment(mondayDate).day("Friday").toDate(),}})
+		    var Thursday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": ThursdayDate,}})
+		    var Friday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": FridayDate,}})
 		
-		    var Saturday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Saturday").toDate(),}})
-		    var Sunday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Sunday").add("7","days").toDate(),}})
+		    var Saturday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": SaturdayDate,}})
+		    var Sunday = $http.get('/api/getDietData', {params: {"User_ID": $rootScope.user.user_id,"Date": SundayDate,}})
 			
 			$q.all([Monday,Tuesday,Wednesday, Thursday,Friday,Saturday,Sunday]).then(function(arrayOfResults){
-				$scope.mealData[ moment(mondayDate).day("Monday").toDate()] = arrayOfResults[0].data
-				$scope.mealData[ moment(mondayDate).day("Tuesday").toDate()] = arrayOfResults[1].data
-				$scope.mealData[ moment(mondayDate).day("Wednesday").toDate()] = arrayOfResults[2].data
-				$scope.mealData[ moment(mondayDate).day("Thursday").toDate()] = arrayOfResults[3].data
-				$scope.mealData[ moment(mondayDate).day("Friday").toDate()] = arrayOfResults[4].data
-				$scope.mealData[ moment(mondayDate).day("Saturday").toDate()] = arrayOfResults[5].data
-				$scope.mealData[ moment(mondayDate).day("Sunday").toDate()] = arrayOfResults[5].data
-				//console.log($scope.mealData)
+				$scope.mealData[MondayDate] = arrayOfResults[0].data
+				$scope.mealData[TuesdayDate] = arrayOfResults[1].data
+				$scope.mealData[WednesdayDate] = arrayOfResults[2].data
+				$scope.mealData[ThursdayDate] = arrayOfResults[3].data
+				$scope.mealData[FridayDate] = arrayOfResults[4].data
+				$scope.mealData[SaturdayDate] = arrayOfResults[5].data
+				$scope.mealData[SundayDate] = arrayOfResults[6].data
+				
+				console.log($scope.mealData)
 				//$scope.buildChart()
 			})
 			
@@ -60,6 +72,7 @@ HealthLive.controller('dietController', ['$scope', '$location','$rootScope','$ht
 		}
 		
 		$scope.editMode = function(meal){
+			console.log("edit", meal)
 			$scope.editData=meal
 			$scope.mode="edit"
 		}
@@ -67,7 +80,7 @@ HealthLive.controller('dietController', ['$scope', '$location','$rootScope','$ht
 		$scope.saveData = function(){
 		    $http.get('/api/editMealData', {
 				params: {"User_ID": $rootScope.user.user_id,
-				"Date": moment($scope.editData.displayDate).format('YYYY-MM-DD HH:mm:ss'),
+				"Date": moment($scope.editData.date).utc().format('YYYY-MM-DD HH:mm:ss'),
 				"Name":$scope.editData.name, 
 				"Amount":$scope.editData.amount, 
 				"Calories":$scope.editData.calories,
@@ -92,9 +105,10 @@ HealthLive.controller('dietController', ['$scope', '$location','$rootScope','$ht
 			$scope.mode="add"
 		}
 		$scope.addData = function(){
+			var current = moment()
 		    $http.get('/api/addMealData', {
 				params: {"User_ID": $rootScope.user.user_id,
-				"Date": moment($scope.editData.displayDate).format('YYYY-MM-DD HH:mm:ss'),
+				"Date": moment($scope.editData.displayDate).hour(current.hour()).minute(current.minutes()).seconds(current.seconds()).format('YYYY-MM-DD HH:mm:ss'),
 				"Name":$scope.editData.name, 
 				"Amount":$scope.editData.amount, 
 				"Calories":$scope.editData.calories,
