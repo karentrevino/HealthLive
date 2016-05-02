@@ -23,12 +23,6 @@ HealthLive.config(function($stateProvider, $urlRouterProvider, IdleProvider, Kee
         controller: 'exerciseController'
    })
    
-   .state('login', {
-       url: "/login",
-       templateUrl: "static/app/components/login/loginView.html",
-	   controller: 'loginController',
-   })
-   
    .state('sleep', {
        url: "/sleep",
        templateUrl: "static/app/components/sleep/sleepView.html",
