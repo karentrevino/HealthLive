@@ -3,6 +3,9 @@ HealthLive.controller('sleepController', ['$scope', '$location','$rootScope','$h
 	    $scope.labels = [];
 
 	    $scope.data = [[]];
+		$scope.colours = [{
+		    fillColor: '#2196f3'
+		}];
 
 		if($cookieStore.get('logged')){
 			$rootScope.logged=true;

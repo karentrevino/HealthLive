@@ -3,6 +3,9 @@ HealthLive.controller('dietController', ['$scope', '$location','$rootScope','$ht
 	    $scope.labels = [];
 
 	    $scope.data = [[]];
+		$scope.colours = [{
+		    fillColor: '#9c27b0'
+		}];
 		$scope.mealTemplate = {'date': "", "calories": "", 'displayDate':"", "amount": "", "type": "", "foodOrDrink": "","name":""}
 
 		if($cookieStore.get('logged')){
@@ -56,9 +59,97 @@ HealthLive.controller('dietController', ['$scope', '$location','$rootScope','$ht
 				
 				console.log($scope.mealData)
 				//$scope.buildChart()
+				$scope.getCaloriesGoal(mondayDate)
 			})
 			
 		}
+		
+		$scope.getCaloriesGoal = function(mondayDate){
+			
+			
+			var MondayDate = moment(mondayDate).day(1).format("YYYY-MM-DD HH:mm:ss")
+			var TuesdayDate = moment(mondayDate).day(2).format("YYYY-MM-DD HH:mm:ss")
+			var WednesdayDate = moment(mondayDate).day(3).format("YYYY-MM-DD HH:mm:ss")
+			var ThursdayDate = moment(mondayDate).day(4).format("YYYY-MM-DD HH:mm:ss")
+			var FridayDate = moment(mondayDate).day(5).format("YYYY-MM-DD HH:mm:ss")
+			var SaturdayDate = moment(mondayDate).day(6).format("YYYY-MM-DD HH:mm:ss")
+			var SundayDate = moment(mondayDate).day(7).format("YYYY-MM-DD HH:mm:ss")
+			
+			
+			//console.log(moment(mondayDate).day("Monday").toDate())
+			var Monday = $http.get('/api/getCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": MondayDate,}})
+		    var Tuesday = $http.get('/api/getCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": TuesdayDate,}})
+		    var Wednesday = $http.get('/api/getCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": WednesdayDate,}})
+		    var Thursday = $http.get('/api/getCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": ThursdayDate,}})
+		    var Friday = $http.get('/api/getCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": FridayDate,}})
+		    var Saturday = $http.get('/api/getCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": SaturdayDate,}})
+		    var Sunday = $http.get('/api/getCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": SundayDate,}})
+			
+			$q.all([Monday,Tuesday,Wednesday, Thursday,Friday,Saturday,Sunday]).then(function(arrayOfResults){
+				$scope.mealData[MondayDate]["calorieGoal"] = arrayOfResults[0].data.results[0]
+				$scope.mealData[TuesdayDate]["calorieGoal"] = arrayOfResults[1].data.results[0]
+				$scope.mealData[WednesdayDate]["calorieGoal"] = arrayOfResults[2].data.results[0]
+				$scope.mealData[ThursdayDate]["calorieGoal"] = arrayOfResults[3].data.results[0]
+				$scope.mealData[FridayDate]["calorieGoal"] = arrayOfResults[4].data.results[0]
+				$scope.mealData[SaturdayDate]["calorieGoal"] = arrayOfResults[5].data.results[0]
+				$scope.mealData[SundayDate]["calorieGoal"] = arrayOfResults[6].data.results[0]
+				
+				console.log($scope.mealData)
+				$scope.buildChart()
+			})
+			
+		}
+		
+		$scope.buildChart = function(){
+		    $scope.labels = [];
+		    $scope.data = [[]];
+			for(var index in $scope.mealData){
+				var totalCal = 0
+				$scope.labels.push(moment($scope.mealData[index].results.displayData).format('MMM D'))
+				for(var subind in $scope.mealData[index].results){
+					totalCal = totalCal + parseInt($scope.mealData[index].results[subind].calories)
+				}
+				$scope.data[0].push(parseInt(totalCal))
+			}
+		}
+		
+		$scope.calorieEditMode = function(day,calorieGoal){
+			console.log("calorieEditMode", calorieGoal)
+			$scope.editData = {}
+			$scope.editData["displayDate"] = day
+			if(calorieGoal == null){
+				$scope.calorieMode = "add"
+				$scope.editData["calories"] = 0
+			}
+			else{
+				
+				$scope.editData["calories"] = calorieGoal
+				$scope.calorieMode = "edit"
+				
+			}
+		}
+		
+		$scope.saveCalories = function(date,caloriesGoal){
+		    $http.get('/api/editCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(date).utc().format('YYYY-MM-DD HH:mm:ss'),"CaloriesGoal":caloriesGoal}
+		    }).success(function(data, status, headers, config) {
+				
+				$scope.calorieMode=""
+				$scope.buildData($scope.lastMonday)
+				$scope.editData =""
+		    }).error(function(data, status){console.log("failed")});
+			
+		}
+		
+		$scope.addCalories = function(date,caloriesGoal){
+		    $http.get('/api/addCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(date).utc().format('YYYY-MM-DD HH:mm:ss'),"CaloriesGoal":caloriesGoal}
+		    }).success(function(data, status, headers, config) {
+				$scope.buildData($scope.lastMonday)
+				$scope.calorieMode=""
+				$scope.editData =""
+		    }).error(function(data, status){console.log("failed")});
+			
+		}
+		
 		
 		
 		$scope.nextWeek = function(){
@@ -104,6 +195,7 @@ HealthLive.controller('dietController', ['$scope', '$location','$rootScope','$ht
 			console.log($scope.editData)
 			$scope.mode="add"
 		}
+		
 		$scope.addData = function(){
 			var current = moment()
 		    $http.get('/api/addMealData', {

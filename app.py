@@ -170,6 +170,41 @@ def edit_meal_data():
 	check = Diet.edit_meal_data(userID, date, name, amount,calories,type, foodOrDrink)
 
 	return jsonify(check)
+    
+@app.route ('/api/getCaloriesGoal', methods=['GET'])
+def get_calories_goal():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+
+    
+	caloriesData = Diet.get_calories_data(userID, date)
+
+	return jsonify(results=caloriesData)
+    
+@app.route ('/api/addCaloriesGoal', methods=['GET'])
+def add_calories_goal():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	caloriesGoal = request.args['CaloriesGoal']
+
+    
+	check = Diet.add_calories_data(userID, date,caloriesGoal)
+
+	return jsonify(results=check)
+    
+@app.route ('/api/editCaloriesGoal', methods=['GET'])
+def edit_calories_goal():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	caloriesGoal = request.args['CaloriesGoal']
+
+    
+	check = Diet.edit_calories_data(userID, date,caloriesGoal)
+
+	return jsonify(results=check)
+
+
+    
 
 #############################################
     

@@ -3,11 +3,24 @@
 	<div class="row">
 		<br>
 		
+		<div class="col-md-5">
+			<h3>Diet - Week Overview</h3><br><br>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Calories Consumed Per Day
+				</div>
+				<div class="panel-body">
+					<canvas id="bar" class="chart chart-bar"
+					  chart-data="data" chart-labels="labels" chart-colours="colours">
+					</canvas>
+				</div>
+			</div>
+		</div>
 		
-		<div class="col-md-8">
-			<h3>Week Overview</h3>
-			<button class="btn btn-primary pull-right" ng-click="nextWeek()">Next Week</button>
-			<button class="btn btn-primary" ng-click="lastWeek()"> Previous Week</button><br><br>
+		<div class="col-md-7"><br><br>
+			
+			<button class="btn btn-info pull-right" ng-click="nextWeek()">Next Week</button>
+			<button class="btn btn-info" ng-click="lastWeek()"> Previous Week</button><br><br>
 		    <table class="table table-striped table-bordered table-hover" >
 		        <thead>
 		        <tr>
@@ -19,8 +32,19 @@
 		        <tr ng-repeat="(day,data) in mealData | orderBy:'displayDate'">
 		            <td><b>{{day| amDateFormat: 'dddd, MMMM Do'}}</b></td>
 		            <td>
-						<b>Calorie Goal: </b>
-						<input type="text" >
+						<div ng-hide="(calorieMode =='edit' || calorieMode == 'add') && day == editData.displayDate ">
+							<b>Calorie Goal:  {{data.calorieGoal[0]}}</b>
+							<btn class="btn btn-primary btn-sm" ng-click="calorieEditMode(day,data.calorieGoal[0])"  ><span class="fa fa-edit"></btn>
+						</div>
+						<div ng-show="(calorieMode =='edit' || calorieMode == 'add') && day == editData.displayDate ">
+							<b>Calorie Goal: </b>
+							<input type="text" ng-model="editData.calories">
+							
+							<btn class="btn btn-primary"  ng-show="calorieMode=='edit'" ng-click="saveCalories(day,editData.calories)" ><span class="fa fa-save"></btn>
+							<btn class="btn btn-primary" ng-show="calorieMode=='add'" ng-click="addCalories(day,editData.calories)"><span class="fa fa-save"></btn>
+						</div>
+						
+
 						<br><hr>
 						
 						<table class="table table-striped table-bordered table-hover dataTables-example"> 
@@ -79,42 +103,6 @@
 										
 									</table>
 									
-								    <!--<div class="form-group">
-								      <label class="col-lg-3 control-label">Name</label>
-								      <div class="col-lg-9">
-								        <input type="text" class="form-control"  placeholder="Duration" ng-model="editData.name">
-								      </div>
-									 </div>
-					  
-				  				    <div class="form-group">
-				  				      <label class="col-lg-3 control-label">Amount</label>
-				  				      <div class="col-lg-9">
-				  				        <input type="text" class="form-control"  placeholder="Duration" ng-model="editData.amount">
-				  				      </div>
-									 </div>
-					  
-				  				    <div class="form-group">
-				  				      <label class="col-lg-3 control-label">Calories</label>
-				  				      <div class="col-lg-9">
-				  				        <input type="text" class="form-control"  placeholder="Duration" ng-model="editData.calories">
-				  				      </div>
-									 </div>
-					  
-				  				    <div class="form-group">
-				  				      <label class="col-lg-3 control-label">Type</label>
-				  				      <div class="col-lg-9">
-				  				        <input type="text" class="form-control"  placeholder="Duration" ng-model="editData.type">
-				  				      </div>
-									</div>
-					  
-								    <div class="form-group">
-								      <label class="col-lg-3 control-label">Food or Drink</label>
-								      <div class="col-lg-9">
-								        <input type="text" class="form-control"  placeholder="Duration" ng-model="editData.foodOrDrink">
-								      </div>
-								    </div>
-									 </div><br><br>-->
-									
 					
 									<div class="text-center">
 										<btn class="btn btn-success"  ng-show="mode == 'edit'" ng-click="saveData()">Edit</btn>
@@ -138,8 +126,7 @@
 		    </table>
 		</div>
 		
-		<div class="col-md-4">
-		</div>
+
 
 	</div>
 </div>

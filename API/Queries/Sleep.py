@@ -7,6 +7,7 @@ def get_sleep_data(user_id, date):
 	cursor.execute("SELECT date, duration FROM sleep WHERE DATE(date) = DATE(\'" + str(date) + '\') and userID = \'' + str(user_id) + '\';')
 	table = cursor.fetchall()
 	return table
+    
 
 def add_sleep_data(user_id, date,duration):
 	cursor = Database.db_connect()
