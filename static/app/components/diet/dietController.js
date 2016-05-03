@@ -95,6 +95,7 @@ HealthLive.controller('dietController', ['$scope', '$location','$rootScope','$ht
 				$scope.mealData[SundayDate]["calorieGoal"] = arrayOfResults[6].data.results[0]
 				
 				console.log($scope.mealData)
+				console.log($scope.mealData[MondayDate])
 				$scope.buildChart()
 			})
 			

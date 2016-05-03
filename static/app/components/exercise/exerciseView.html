@@ -33,14 +33,17 @@
                     <td><b>{{day| amDateFormat: 'dddd, MMMM Do'}}</b></td>
                     <td>
                         <div ng-hide="(exMode =='edit' || exMode == 'add') && day == editData.displayDate ">
-                             <b>Muscle Group Targeting: {{data.exerciseGoal[0]}}</b>
-                            <b>Exercise Duration: {{data.exerciseGoal[1]}}</b>
+                             <b>Muscle Group Targeting: {{data.exerciseGoal.muscle_goal}}</b>
+                             <br>
+                             <b>Exercise Time: {{data.exerciseGoal.duration}}</b>
+                             <br>
 
-                            <btn class="btn btn-primary btn-sm" ng-click="exerciseEditMode(day,data.exerciseGoal[0],data.exerciseGoal[1])"  ><span class="fa fa-edit"></btn>
+                            <btn class="btn btn-primary btn-sm" ng-click="exerciseEditMode(day,data.exerciseGoal.muscle_goal,data.exerciseGoal.duration)"  ><span class="fa fa-edit"></btn>
                         </div>
                         <div ng-show="(exMode =='edit' || exMode == 'add') && day == editData.displayDate ">
                             <b>Muscle Group Targeting:</b>
                             <input type="text" ng-model="editData.muscleGoal">
+                            <br>
                             <b>Exercise Duration:</b>
                             <input type="text" ng-model="editData.durationGoal">
                             
