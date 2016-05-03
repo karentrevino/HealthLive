@@ -221,6 +221,7 @@ def edit_calories_goal():
 	return jsonify(results=check)
 
 # -------- EXERCISE APIs ----------
+#exercise
 @app.route ('/api/getExerciseData', methods=['GET'])
 def get_exercise_data():
 	date = request.args['Date']
@@ -242,6 +243,29 @@ def get_exercise_data():
 	print("exercises!!!", workout)
 	return jsonify(results=workout)
 
+@app.route ('/api/addExerciseData', methods=['GET'])
+def add_exercise_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	muscleGroup = request.args['MuscleGroup']
+	duration = request.args['Duration']
+
+	updated = Exercise.add_exercise_data(userID,date,muscleGroup,duration)
+
+	return jsonify(updated)
+
+@app.route ('/api/editExerciseData', methods=['GET'])
+def edit_exercise_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	muscleGroup = request.args['MuscleGroup']
+	duration = request.args['Duration']
+
+	updated = Exercise.edit_exercise_data(userID,date,muscleGroup,duration)
+
+	return jsonify(updated)
+
+#exercise goal
 @app.route ('/api/getExerciseGoal', methods=['GET'])
 def get_exercise_goal():
 	date = request.args['Date']
@@ -257,9 +281,29 @@ def get_exercise_goal():
 		'muscle_goal': goal[0],
 		'duration': goal[1],
 	}
-
 	return jsonify(results=e)
+
+@app.route ('/api/editExerciseGoal', methods=['GET'])
+def edit_exercise_goal():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	muscleGoal = request.args['MuscleGoal']
+	durationGoal = request.args['DurationGoal']
     
+	updated = Exercise.edit_exercise_goal_data(userID,date,muscleGoal,durationGoal)
+
+	return jsonify(results=updated)
+
+@app.route ('/api/addExerciseGoal', methods=['GET'])
+def add_exercise_goal():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	muscleGoal = request.args['MuscleGoal']
+	durationGoal = request.args['DurationGoal']
+
+	updated = Exercise.add_exercise_goal_data(userID,date,muscleGoal,durationGoal)
+
+	return jsonify(results=updated)    
 
 #############################################
     

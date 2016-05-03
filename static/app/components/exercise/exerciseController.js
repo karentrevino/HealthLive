@@ -122,20 +122,20 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
                     "Date": SundayDate,}})
             
             $q.all([Monday,Tuesday,Wednesday, Thursday,Friday,Saturday,Sunday]).then(function(arrayOfResults){
-                $scope.exerciseData[MondayDate]["durationGoal"] = arrayOfResults[0].data.results[0]
-                $scope.exerciseData[MondayDate]["muscleGoal"] = arrayOfResults[0].data.results[1]
-                $scope.exerciseData[TuesdayDate]["durationGoal"] = arrayOfResults[1].data.results[0]
-                $scope.exerciseData[MondayDate]["muscleGoal"] = arrayOfResults[1].data.results[1]
-                $scope.exerciseData[WednesdayDate]["durationGoal"] = arrayOfResults[2].data.results[0]
-                $scope.exerciseData[MondayDate]["muscleGoal"] = arrayOfResults[2].data.results[1]
-                $scope.exerciseData[ThursdayDate]["durationGoal"] = arrayOfResults[3].data.results[0]
-                $scope.exerciseData[MondayDate]["muscleGoal"] = arrayOfResults[3].data.results[1]
-                $scope.exerciseData[FridayDate]["durationGoal"] = arrayOfResults[4].data.results[0]
-                $scope.exerciseData[MondayDate]["muscleGoal"] = arrayOfResults[4].data.results[1]
-                $scope.exerciseData[SaturdayDate]["durationGoal"] = arrayOfResults[5].data.results[0]
-                $scope.exerciseData[MondayDate]["muscleGoal"] = arrayOfResults[5].data.results[1]
-                $scope.exerciseData[SundayDate]["durationGoal"] = arrayOfResults[6].data.results[0]
-                $scope.exerciseData[MondayDate]["muscleGoal"] = arrayOfResults[6].data.results[1]
+                $scope.exerciseData[MondayDate]["muscleGoal"] = arrayOfResults[0].data.results[0]
+                $scope.exerciseData[MondayDate]["durationGoal"] = arrayOfResults[0].data.results[1]
+                $scope.exerciseData[TuesdayDate]["muscleGoal"] = arrayOfResults[1].data.results[0]
+                $scope.exerciseData[TuesdayMondayDate]["durationGoal"] = arrayOfResults[1].data.results[1]
+                $scope.exerciseData[WednesdayDate]["muscleGoal"] = arrayOfResults[2].data.results[0]
+                $scope.exerciseData[WednesdayDate]["durationGoal"] = arrayOfResults[2].data.results[1]
+                $scope.exerciseData[ThursdayDate]["muscleGoal"] = arrayOfResults[3].data.results[0]
+                $scope.exerciseData[ThursdayDate]["durationGoal"] = arrayOfResults[3].data.results[1]
+                $scope.exerciseData[FridayDate]["muscleGoal"] = arrayOfResults[4].data.results[0]
+                $scope.exerciseData[FridayDate]["durationGoal"] = arrayOfResults[4].data.results[1]
+                $scope.exerciseData[SaturdayDate]["muscleGoal"] = arrayOfResults[5].data.results[0]
+                $scope.exerciseData[SaturdayDate]["durationGoal"] = arrayOfResults[5].data.results[1]
+                $scope.exerciseData[SundayDate]["muscleGoal"] = arrayOfResults[6].data.results[0]
+                $scope.exerciseData[SundayDate]["durationGoal"] = arrayOfResults[6].data.results[1]
                 
                 console.log($scope.exerciseData)
                 $scope.buildChart()
@@ -159,8 +159,8 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
         $scope.exerciseEditMode = function(day,muscleGoal,durationGoal){
             $scope.editData = {}
             $scope.editData["displayDate"] = day
-            if(muscleGoal == null){
-                $scope.muscleMode = "add"
+            if( muscleGoal == null || durationGoal == null){
+                $scope.exMode = "add"
                 $scope.editData["muscleGoal"] = ""
                 $scope.editData["durationGoal"] = 0.0
             }
@@ -168,35 +168,37 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
                 
                 $scope.editData["muscleGoal"] = muscleGoal
                 $scope.editData["durationGoal"] = durationGoal
-                $scope.calorieMode = "edit"
+                $scope.exMode = "edit"
                 
             }
         }
         
-        $scope.saveCalories = function(date,caloriesGoal){
-            $http.get('/api/editCaloriesGoal', {
+        $scope.saveExerciseGoals = function(date,muscleGoal,durationGoal){
+            $http.get('/api/editExerciseGoal', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": moment(date).utc().format('YYYY-MM-DD HH:mm:ss'),
-                    "CaloriesGoal":caloriesGoal}
+                    "MuscleGoal":muscleGoal,
+                    "DurationGoal":durationGoal}
             }).success(function(data, status, headers, config) {
                 
-                $scope.calorieMode=""
+                $scope.exMode=""
                 $scope.buildData($scope.lastMonday)
                 $scope.editData =""
             }).error(function(data, status){console.log("failed")});
             
         }
         
-        $scope.addCalories = function(date,caloriesGoal){
-            $http.get('/api/addCaloriesGoal', {
+        $scope.addExerciseGoal = function(date,muscleGoal,durationGoal){
+            $http.get('/api/addExerciseGoal', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": moment(date).utc().format('YYYY-MM-DD HH:mm:ss'),
-                    "CaloriesGoal":caloriesGoal}
+                    "MuscleGoal":muscleGoal,
+                    "DurationGoal":durationGoal}
             }).success(function(data, status, headers, config) {
                 $scope.buildData($scope.lastMonday)
-                $scope.calorieMode=""
+                $scope.exMode=""
                 $scope.editData =""
             }).error(function(data, status){console.log("failed")});
             
@@ -214,22 +216,20 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
             $scope.buildData($scope.lastMonday)
         }
         
-        $scope.editMode = function(meal){
-            console.log("edit", meal)
-            $scope.editData=meal
+        $scope.editMode = function(exercise){
+            console.log("edit", exercise)
+            $scope.editData=exercise
             $scope.mode="edit"
         }
         
         $scope.saveData = function(){
-            $http.get('/api/editMealData', {
+            $http.get('/api/editExerciseData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": moment($scope.editData.date).utc().format('YYYY-MM-DD HH:mm:ss'),
-                    "Name":$scope.editData.name, 
-                    "Amount":$scope.editData.amount, 
-                    "Calories":$scope.editData.calories,
-                    "Type":$scope.editData.type,
-                    "FoodOrDrink":$scope.editData.foodOrDrink}
+                    "MuscleGroup":$scope.editData.muscleGroup, 
+                    "Duration":$scope.editData.duration 
+                    }
             }).success(function(data, status, headers, config) {
                 console.log($scope.editData.date)
                 console.log(" ")
@@ -251,15 +251,12 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
         
         $scope.addData = function(){
             var current = moment()
-            $http.get('/api/addMealData', {
+            $http.get('/api/addExerciseData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": moment($scope.editData.displayDate).hour(current.hour()).minute(current.minutes()).seconds(current.seconds()).format('YYYY-MM-DD HH:mm:ss'),
-                    "Name":$scope.editData.name, 
-                    "Amount":$scope.editData.amount, 
-                    "Calories":$scope.editData.calories,
-                    "Type":$scope.editData.type,
-                    "FoodOrDrink":$scope.editData.foodOrDrink}
+                    "MuscleGroup":$scope.editData.muscleGroup, 
+                    "Duration":$scope.editData.duration}
             }).success(function(data, status, headers, config) {
                 console.log(data)
                 $scope.editData={}

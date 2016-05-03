@@ -45,6 +45,31 @@ INSERT INTO `alcohol` VALUES ('2016-04-26 20:08:00',1,'beer','5',1);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `caloriegoal`
+--
+
+DROP TABLE IF EXISTS `caloriegoal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `caloriegoal` (
+  `date` datetime NOT NULL,
+  `calorieGoal` int(11) DEFAULT NULL,
+  `userID` int(11) NOT NULL,
+  PRIMARY KEY (`date`,`userID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `caloriegoal`
+--
+
+LOCK TABLES `caloriegoal` WRITE;
+/*!40000 ALTER TABLE `caloriegoal` DISABLE KEYS */;
+INSERT INTO `caloriegoal` VALUES ('2016-04-27 02:43:49',1800,1),('2016-04-27 03:47:35',1500,1),('2016-04-30 00:32:27',1500,1),('2016-05-02 00:32:27',1500,1),('2016-05-02 03:47:35',1300,1),('2016-05-03 00:32:27',1200,1),('2016-05-04 03:47:35',1150,1);
+/*!40000 ALTER TABLE `caloriegoal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `exercise`
 --
 
@@ -53,9 +78,7 @@ DROP TABLE IF EXISTS `exercise`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `exercise` (
   `date` datetime NOT NULL,
-  `exerciseName` varchar(45) DEFAULT NULL,
   `muscleGroup` varchar(45) DEFAULT NULL,
-  `completed` varchar(45) DEFAULT NULL,
   `duration` float DEFAULT NULL,
   `userID` int(11) DEFAULT NULL,
   PRIMARY KEY (`date`),
@@ -70,36 +93,36 @@ CREATE TABLE `exercise` (
 
 LOCK TABLES `exercise` WRITE;
 /*!40000 ALTER TABLE `exercise` DISABLE KEYS */;
-INSERT INTO `exercise` VALUES ('2016-04-26 06:08:00','Strength Training','Legs','yes',2,1),('2016-04-27 06:18:00','Lifting','Arms','yes',1.5,1),('2016-04-27 07:30:00','Strength Training','Abs','yes',0.5,1);
+INSERT INTO `exercise` VALUES ('2016-04-26 06:08:00','Legs',2,1),('2016-04-27 06:18:00','Arms',1.5,1),('2016-04-27 07:30:00','Abs',0.5,1),('2016-05-01 01:02:45','abs',0.5,1),('2016-05-01 08:01:00','legs',1.5,1),('2016-05-01 08:05:00','cardio',0.5,1),('2016-05-02 00:38:37','abs',0.5,1),('2016-05-02 08:05:00','cardio',1,1),('2016-05-03 08:05:00','arms',1.3,1),('2016-05-04 08:05:00','none',0,1),('2016-05-05 08:05:00','abs',1.5,1),('2016-05-06 08:05:00','cardio',0.5,1),('2016-05-07 08:05:00','legs',2,1),('2016-05-08 08:05:00','none',0,1);
 /*!40000 ALTER TABLE `exercise` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `goals`
+-- Table structure for table `exercisegoal`
 --
 
-DROP TABLE IF EXISTS `goals`;
+DROP TABLE IF EXISTS `exercisegoal`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `goals` (
-  `startDate` datetime NOT NULL,
-  `exerciseTimesPerWk` float DEFAULT NULL,
-  `calorieGoal` int(11) DEFAULT NULL,
+CREATE TABLE `exercisegoal` (
+  `date` datetime NOT NULL,
+  `muscleGoal` varchar(45) DEFAULT NULL,
+  `durationGoal` float DEFAULT NULL,
   `userID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`startDate`),
-  KEY `goal_1_idx` (`userID`),
-  CONSTRAINT `goal_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  PRIMARY KEY (`date`),
+  KEY `ex_goal_1_idx` (`userID`),
+  CONSTRAINT `ex_goal_1` FOREIGN KEY (`userID`) REFERENCES `user` (`userID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `goals`
+-- Dumping data for table `exercisegoal`
 --
 
-LOCK TABLES `goals` WRITE;
-/*!40000 ALTER TABLE `goals` DISABLE KEYS */;
-INSERT INTO `goals` VALUES ('2016-04-26 00:00:00',5,1500,1);
-/*!40000 ALTER TABLE `goals` ENABLE KEYS */;
+LOCK TABLES `exercisegoal` WRITE;
+/*!40000 ALTER TABLE `exercisegoal` DISABLE KEYS */;
+INSERT INTO `exercisegoal` VALUES ('2016-05-01 06:05:00','legs',2,1),('2016-05-02 06:01:08','butt',1,1),('2016-05-02 06:02:03','butt',8,1),('2016-05-02 08:47:29','lats',1.2,1),('2016-05-02 09:26:00','abs',2,1),('2016-05-03 06:04:01','\"legs\"',2,1),('2016-05-04 06:00:00','arms',1.5,1),('2016-05-05 06:25:00','cardio',0.5,1),('2016-05-06 06:01:00','shoulders',1.5,1),('2016-05-07 06:08:00','chest',1,1),('2016-05-08 06:04:00','legs',2,1);
+/*!40000 ALTER TABLE `exercisegoal` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -129,7 +152,7 @@ CREATE TABLE `meal` (
 
 LOCK TABLES `meal` WRITE;
 /*!40000 ALTER TABLE `meal` DISABLE KEYS */;
-INSERT INTO `meal` VALUES ('2016-04-26 09:15:00',300,1,'Breakfast Sandwich','breakfast','food',1),('2016-04-26 12:15:00',375,1,'Starbucks','caffeine','drink',1),('2016-04-26 20:52:00',680,1,'Chicken Pesto','dinner','food',1);
+INSERT INTO `meal` VALUES ('2016-04-26 09:15:00',300,1,'Breakfast Sandwich','breakfast','food',1),('2016-04-26 12:15:00',375,1,'Starbucks','caffeine','drink',1),('2016-04-26 20:52:00',680,1,'Chicken Pesto','dinner','food',1),('2016-05-01 22:50:54',200,1,'ramen','lunch','food',1),('2016-05-01 22:52:00',750,1,'orange chicken with rice','dinner','food',1),('2016-05-01 22:52:37',475,1,'starbucks coffee','caffeine','drink',1),('2016-05-02 19:35:02',301,1,'lunchable','lunch','food',1),('2016-05-02 19:36:16',200,1,'rice','dinner','food',1),('2016-05-02 23:47:29',384,3,'redbull','caffeine','drink',1);
 /*!40000 ALTER TABLE `meal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -214,7 +237,7 @@ CREATE TABLE `sleep` (
 
 LOCK TABLES `sleep` WRITE;
 /*!40000 ALTER TABLE `sleep` DISABLE KEYS */;
-INSERT INTO `sleep` VALUES ('2016-04-26 06:34:00',8,1),('2016-04-27 06:00:00',5,1);
+INSERT INTO `sleep` VALUES ('2016-04-26 06:34:00',8,1),('2016-04-27 06:00:00',5,1),('2016-04-28 19:30:07',6,1),('2016-05-02 19:30:07',5,1),('2016-05-03 23:10:20',0,1);
 /*!40000 ALTER TABLE `sleep` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -241,7 +264,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'dariaaafool@yahoo.com','dupont','daria','123456'),(2,'test@yahoo.com','user','test','test');
+INSERT INTO `user` VALUES (1,'dariaaafool','dupont','daria','123456'),(2,'test@yahoo.com','user','test','test');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,4 +281,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-27 23:12:25
+-- Dump completed on 2016-05-03  1:27:05
