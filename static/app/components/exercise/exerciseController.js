@@ -125,7 +125,7 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
                 $scope.exerciseData[MondayDate]["muscleGoal"] = arrayOfResults[0].data.results[0]
                 $scope.exerciseData[MondayDate]["durationGoal"] = arrayOfResults[0].data.results[1]
                 $scope.exerciseData[TuesdayDate]["muscleGoal"] = arrayOfResults[1].data.results[0]
-                $scope.exerciseData[TuesdayMondayDate]["durationGoal"] = arrayOfResults[1].data.results[1]
+                $scope.exerciseData[TuesdayDate]["durationGoal"] = arrayOfResults[1].data.results[1]
                 $scope.exerciseData[WednesdayDate]["muscleGoal"] = arrayOfResults[2].data.results[0]
                 $scope.exerciseData[WednesdayDate]["durationGoal"] = arrayOfResults[2].data.results[1]
                 $scope.exerciseData[ThursdayDate]["muscleGoal"] = arrayOfResults[3].data.results[0]
