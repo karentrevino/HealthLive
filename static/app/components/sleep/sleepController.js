@@ -3,6 +3,9 @@ HealthLive.controller('sleepController', ['$scope', '$location','$rootScope','$h
 	    $scope.labels = [];
 
 	    $scope.data = [[]];
+		$scope.colours = [{
+		    fillColor: '#2196f3'
+		}];
 
 		if($cookieStore.get('logged')){
 			$rootScope.logged=true;
@@ -18,20 +21,27 @@ HealthLive.controller('sleepController', ['$scope', '$location','$rootScope','$h
 		
 		$scope.buildData= function(mondayDate){
 			$scope.sleepData = []
+			var MondayDate = moment(mondayDate).day(1).format("YYYY-MM-DD HH:mm:ss")
+			var TuesdayDate = moment(mondayDate).day(2).format("YYYY-MM-DD HH:mm:ss")
+			var WednesdayDate = moment(mondayDate).day(3).format("YYYY-MM-DD HH:mm:ss")
+			var ThursdayDate = moment(mondayDate).day(4).format("YYYY-MM-DD HH:mm:ss")
+			var FridayDate = moment(mondayDate).day(5).format("YYYY-MM-DD HH:mm:ss")
+			var SaturdayDate = moment(mondayDate).day(6).format("YYYY-MM-DD HH:mm:ss")
+			var SundayDate = moment(mondayDate).day(7).format("YYYY-MM-DD HH:mm:ss")
 			//console.log(moment(mondayDate).day("Monday").toDate())
-			var Monday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Monday").toDate(),}})
+			var Monday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": MondayDate,}})
 			
 
 	
-		    var Tuesday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Tuesday").toDate(),}})
+		    var Tuesday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": TuesdayDate,}})
 		
-		    var Wednesday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Wednesday").toDate(),}})
+		    var Wednesday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": WednesdayDate,}})
 			
-		    var Thursday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Thursday").toDate(),}})
-		    var Friday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date":moment(mondayDate).day("Friday").toDate(),}})
+		    var Thursday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": ThursdayDate,}})
+		    var Friday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date":FridayDate,}})
 		
-		    var Saturday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Saturday").toDate(),}})
-		    var Sunday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(mondayDate).day("Sunday").add("7","days").toDate(),}})
+		    var Saturday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": SaturdayDate,}})
+		    var Sunday = $http.get('/api/getSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": SundayDate,}})
 			
 			$q.all([Monday,Tuesday,Wednesday, Thursday,Friday,Saturday,Sunday]).then(function(arrayOfResults){
 				$scope.sleepData.push(arrayOfResults[0].data)
@@ -83,7 +93,7 @@ HealthLive.controller('sleepController', ['$scope', '$location','$rootScope','$h
 		}
 		
 		$scope.saveData = function(){
-		    $http.get('/api/editSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment($scope.editData.date).format('YYYY-MM-DD HH:mm:ss'),"Duration":$scope.editData.duration}
+		    $http.get('/api/editSleepData', {params: {"User_ID": $rootScope.user.user_id,"Date": moment($scope.editData.date).utc().format('YYYY-MM-DD HH:mm:ss'),"Duration":$scope.editData.duration}
 		    }).success(function(data, status, headers, config) {
 				console.log($scope.editData.date)
 				console.log(" ")

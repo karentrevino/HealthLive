@@ -1,14 +1,15 @@
 <div class="container">
 	
 	<div class="row">
-		<div class="col-md-6"><br><br><br>
+		<div class="col-md-6"><br>
+			<h3>Sleep - Week Overview</h3><br><br>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					Sleep in a Week (in hours)
 				</div>
 				<div class="panel-body">
 					<canvas id="bar" class="chart chart-bar"
-					  chart-data="data" chart-labels="labels" >
+					  chart-data="data" chart-labels="labels" chart-colours="colours">
 					</canvas>
 				</div>
 			</div>
@@ -17,7 +18,7 @@
 		
 		
 		
-		<div class="col-md-6">
+		<div class="col-md-6"><br><br><br>
 			<button class="btn btn-primary pull-right" ng-click="nextWeek()">Next Week</button>
 			<button class="btn btn-primary" ng-click="lastWeek()"> Previous Week</button><br><br>
 			
@@ -43,7 +44,7 @@
 		        </tbody>
 		    </table>
 			
-			<div  class="panel panel-default" ng-show="mode == 'add' || mode=='edit'">{{editData.date}}
+			<div  class="panel panel-default" ng-show="mode == 'add' || mode=='edit'">
 				<div class="panel-heading"><span ng-show="mode == 'add'">Add</span><span ng-show="mode == 'edit'">Edit</span></div>
 				<div class="panel-body form-inline">
 				    <div class="form-group">
