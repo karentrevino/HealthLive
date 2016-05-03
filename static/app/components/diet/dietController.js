@@ -103,9 +103,10 @@ HealthLive.controller('dietController', ['$scope', '$location','$rootScope','$ht
 		$scope.buildChart = function(){
 		    $scope.labels = [];
 		    $scope.data = [[]];
+			console.log($scope.mealData)
 			for(var index in $scope.mealData){
 				var totalCal = 0
-				$scope.labels.push(moment($scope.mealData[index].results.displayData).format('MMM D'))
+				$scope.labels.push(moment(index).format('MMM D'))
 				for(var subind in $scope.mealData[index].results){
 					totalCal = totalCal + parseInt($scope.mealData[index].results[subind].calories)
 				}
