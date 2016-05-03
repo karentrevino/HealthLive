@@ -8,7 +8,6 @@ def get_sleep_data(user_id, date):
 	table = cursor.fetchall()
 	return table
     
-
 def add_sleep_data(user_id, date,duration):
 	cursor = Database.db_connect()
 	cursor.execute('START TRANSACTION;')
