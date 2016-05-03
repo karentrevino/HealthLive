@@ -1,6 +1,7 @@
 HealthLive.controller('loginController', ['$scope', '$location','$rootScope','$http','$cookies','$cookieStore',
 	function($scope,$location,$rootScope,$http,$cookies,$cookieStore, Idle) {
 
+
 	$scope.login = function(){
 		date = new Date();
 		
@@ -8,7 +9,8 @@ HealthLive.controller('loginController', ['$scope', '$location','$rootScope','$h
 		
 		$http.get('/api/login', {
         params: {
-            email: $scope.credentials.username
+            email: $scope.credentials.username,
+            password: $scope.credentials.password
         }}).success(function(data, status, headers, config) {
 	    $rootScope.user = data;	    
 	    $scope.status1 = status;
@@ -24,12 +26,13 @@ HealthLive.controller('loginController', ['$scope', '$location','$rootScope','$h
 			$cookieStore.put('logged', true)
 			$cookieStore.put('user', $rootScope.user)
 			$location.path('/home')
-		}
-		}).error(function(data, status) {
+		}}).error(function(data, status) {
 		    console.log('failed');
 		    $scope.status1 = status;
 		});
+	
 	}
+
 
 
 }]);

@@ -1,4 +1,4 @@
 HOST = 'localhost'
 USER = 'root'
-PASS = 'root'
+PASS = 'mavmrow16.'
 HOTSPOT_DB ='healthlivedb'

@@ -5,16 +5,22 @@ HealthLive.config(function($stateProvider, $urlRouterProvider, IdleProvider, Kee
    $stateProvider
         
         // HOME STATES AND NESTED VIEWS ========================================
+
+   .state('login', {
+        url: '/login',
+        templateUrl: 'static/app/components/login/loginView.html',
+        controller: 'loginController'
+    })
    
    .state('home', {
-       url: "/home",
-       templateUrl: "static/app/components/home/homeView.html",
+        url: '/home',
+        templateUrl: "static/app/components/home/homeView.html",
    })
-   
-   .state('login', {
-       url: "/login",
-       templateUrl: "static/app/components/login/loginView.html",
-	   controller: 'loginController',
+
+   .state('exercise', {
+        url: '/exercise',
+        templateUrl: 'static/app/components/exercise/exerciseView.html',
+        controller: 'exerciseController'
    })
    
    .state('sleep', {

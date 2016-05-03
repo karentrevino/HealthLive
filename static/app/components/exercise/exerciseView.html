@@ -1,0 +1,118 @@
+<div class="container">
+    
+    <div class="row">
+        <br>
+        
+        <div class="col-md-5">
+            <h3>Exercise - Week Overview</h3><br><br>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Exercise Goals Per Day
+                </div>
+                <div class="panel-body">
+                    <canvas id="bar" class="chart chart-bar"
+                      chart-data="data" chart-labels="labels" chart-colours="colours">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-7"><br><br>
+            
+            <button class="btn btn-success pull-right" ng-click="nextWeek()">Next Week</button>
+            <button class="btn btn-success" ng-click="lastWeek()"> Previous Week</button><br><br>
+            <table class="table table-striped table-bordered table-hover" >
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Data</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="(day,data) in exerciseData | orderBy:'displayDate'">
+                    <td><b>{{day| amDateFormat: 'dddd, MMMM Do'}}</b></td>
+                    <td>
+                        <div ng-hide="(exMode =='edit' || exMode == 'add') && day == editData.displayDate ">
+                             <b>Muscle Group Targeting: {{data.exerciseGoal[0]}}</b>
+                            <b>Exercise Duration: {{data.exerciseGoal[1]}}</b>
+
+                            <btn class="btn btn-primary btn-sm" ng-click="exerciseEditMode(day,data.exerciseGoal[0],data.exerciseGoal[1])"  ><span class="fa fa-edit"></btn>
+                        </div>
+                        <div ng-show="(exMode =='edit' || exMode == 'add') && day == editData.displayDate ">
+                            <b>Muscle Group Targeting:</b>
+                            <input type="text" ng-model="editData.muscleGoal">
+                            <b>Exercise Duration:</b>
+                            <input type="text" ng-model="editData.durationGoal">
+                            
+                            <btn class="btn btn-primary"  ng-show="exMode=='edit'" ng-click="saveExerciseGoals(day,editData.muscleGoal, editData.durationGoal)" ><span class="fa fa-save"></btn>
+                            <btn class="btn btn-primary" ng-show="exMode=='add'" ng-click="addExerciseGoal(day,editData.muscleGoal,editData.durationGoal)"><span class="fa fa-save"></btn>
+                        </div>
+                        
+
+                        <br><hr>
+                        
+                        <table class="table table-striped table-bordered table-hover dataTables-example"> 
+                            <thead>
+                                <tr>
+                                    <th>Muscle Group Targeted</th>
+                                    <th>Duration (hrs)</th>
+                                    <th>Edit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="exercise in data.results">
+                                    <td>{{exercise.muscleGroup}}</td>
+                                    <td>{{exercise.duration}}</td>
+                                    <td><button class="btn btn-primary" ng-click="editMode(exercise)"><span class="fa fa-edit"></span></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                            <div  class="panel panel-default" ng-show="(mode == 'add' || mode =='edit') && day == editData.displayDate ">
+                                <div class="panel-heading"><span ng-show="mode == 'add'">Add</span><span ng-show="mode == 'edit'">Edit</span></div>
+                                <div class="panel-body form-inline">
+                                    <div class="form-group">
+                                      <label class="col-lg-12 control-label">Date: {{editData.date | date}}</label>
+                                    </div>
+                                    
+                                    <table class="table table-striped table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <td>Muscle Group Targeted</td>
+                                                <td> <input type="text" class="form-control"  placeholder="Muscle Group" ng-model="editData.muscleGroup"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Exercise Duration (hrs)</td>
+                                                <td> <input type="text" class="form-control"  placeholder="Duration" ng-model="editData.duration"></td>
+                                            </tr>
+                                        </tbody>
+                                        
+                                    </table>
+                                    
+                    
+                                    <div class="text-center">
+                                        <btn class="btn btn-success"  ng-show="mode == 'edit'" ng-click="saveData()">Edit</btn>
+                                        <btn class="btn btn-success" ng-show="mode == 'add'" ng-click="addData()">Add</btn>
+                                        <btn class="btn btn-danger"> Cancel </btn>
+                
+                                    </div>
+                                </div>
+                            </div>
+                    
+                        
+                        <button class="btn btn-success" ng-click="addMode(day)"><span class="fa fa-plus"></span></button>
+                        
+                        
+                    
+                    </td>
+
+                </tr>
+                
+                </tbody>
+            </table>
+        </div>
+        
+
+
+    </div>
+</div>

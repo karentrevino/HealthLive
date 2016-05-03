@@ -1,5 +1,6 @@
 import flask
 from flask import jsonify, request
+from API.Queries import Exercise
 from API.Queries import Sleep
 from API.Queries import Users
 from API.Queries import Diet
@@ -25,6 +26,22 @@ def get_all_classes():
 		classes.append(new_class)
 
 	return jsonify(results=classes)
+
+def import_user(fn, mn, ln, email, role, account_type, account_status):
+	pw = id_generator()
+	# id_num, netid will be returned by the function
+	args = (fn, mn, ln, email, role, account_type, account_status, pw, 0, '0')
+	cursor = Database.db_connect()
+	cursor.execute('START TRANSACTION;')
+	cursor.callproc('addUser', args)
+	cursor.execute('SELECT @_addUser_8, @_addUser_9')
+	result_args = cursor.fetchall();
+	cursor.execute('COMMIT;')
+	print 'result_args: ' + str(result_args)
+	print 'Added_user:'+str(result_args[0])
+	cursor.close()
+	# returns created UID, netid, and password
+	return result_args[0][0], result_args[0][1], pw
 
 #get all users, returns json list of users
 @app.route ('/api/viewUsers', methods=['GET'])
@@ -77,6 +94,8 @@ def login():
 	return jsonify(user)
     
 ###########################################
+
+# ----- SLEEP APIs -------
 @app.route ('/api/getSleepData', methods=['GET'])
 def get_sleep_data():
 	date = request.args['Date']
@@ -115,6 +134,7 @@ def edit_sleep_data():
 
 	return jsonify(check)
     
+# --------- MEAL/DIET APIs -----------
 @app.route ('/api/getDietData', methods=['GET'])
 def get_diet_data():
 	date = request.args['Date']
@@ -164,9 +184,6 @@ def edit_meal_data():
 	amount = request.args['Amount']
 	type = request.args['Type']
 	foodOrDrink = request.args['FoodOrDrink']
-
-
-    
 	check = Diet.edit_meal_data(userID, date, name, amount,calories,type, foodOrDrink)
 
 	return jsonify(check)
@@ -203,8 +220,90 @@ def edit_calories_goal():
 
 	return jsonify(results=check)
 
+# -------- EXERCISE APIs ----------
+#exercise
+@app.route ('/api/getExerciseData', methods=['GET'])
+def get_exercise_data():
+	date = request.args['Date']
+	print("------------------" + date)
+	userID = request.args['User_ID']
 
     
+	exData = Exercise.get_exercise_data(userID, date)
+	workout = []
+	one_exercise={'date': "", "muscleGroup": "", 'displayDate': date, "duration": ""}
+    
+	for exercise in exData:
+		one_exercise={'date': "", "muscleGroup": "", 'displayDate': date, "duration": ""}
+		one_exercise['date'] = exercise[0]
+		one_exercise['muscleGroup'] = exercise[1]
+		one_exercise['duration'] = exercise[2]
+		workout.append(one_exercise)
+
+	print("exercises!!!", workout)
+	return jsonify(results=workout)
+
+@app.route ('/api/addExerciseData', methods=['GET'])
+def add_exercise_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	muscleGroup = request.args['MuscleGroup']
+	duration = request.args['Duration']
+
+	updated = Exercise.add_exercise_data(userID,date,muscleGroup,duration)
+
+	return jsonify(updated)
+
+@app.route ('/api/editExerciseData', methods=['GET'])
+def edit_exercise_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	muscleGroup = request.args['MuscleGroup']
+	duration = request.args['Duration']
+
+	updated = Exercise.edit_exercise_data(userID,date,muscleGroup,duration)
+
+	return jsonify(updated)
+
+#exercise goal
+@app.route ('/api/getExerciseGoal', methods=['GET'])
+def get_exercise_goal():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+
+	exerciseGoalData = Exercise.get_exercise_goal_data(userID, date)
+	for g in exerciseGoalData:
+		goal = g
+
+	print("exGoal")
+
+	e = {
+		'muscle_goal': goal[0],
+		'duration': goal[1],
+	}
+	return jsonify(results=e)
+
+@app.route ('/api/editExerciseGoal', methods=['GET'])
+def edit_exercise_goal():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	muscleGoal = request.args['MuscleGoal']
+	durationGoal = request.args['DurationGoal']
+    
+	updated = Exercise.edit_exercise_goal_data(userID,date,muscleGoal,durationGoal)
+
+	return jsonify(results=updated)
+
+@app.route ('/api/addExerciseGoal', methods=['GET'])
+def add_exercise_goal():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	muscleGoal = request.args['MuscleGoal']
+	durationGoal = request.args['DurationGoal']
+
+	updated = Exercise.add_exercise_goal_data(userID,date,muscleGoal,durationGoal)
+
+	return jsonify(results=updated)    
 
 #############################################
     
