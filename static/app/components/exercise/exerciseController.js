@@ -95,7 +95,9 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
             var Monday = $http.get('/api/getExerciseGoal', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
-                    "Date": MondayDate,}})
+                    "Date": MondayDate,}}
+                )
+            console.log(Monday)
             var Tuesday = $http.get('/api/getExerciseGoal', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
@@ -121,23 +123,17 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
                     "User_ID": $rootScope.user.user_id,
                     "Date": SundayDate,}})
             
-            $q.all([Monday,Tuesday,Wednesday, Thursday,Friday,Saturday,Sunday]).then(function(arrayOfResults){
-                $scope.exerciseData[MondayDate]["muscleGoal"] = arrayOfResults[0].data.results[0]
-                $scope.exerciseData[MondayDate]["durationGoal"] = arrayOfResults[0].data.results[1]
-                $scope.exerciseData[TuesdayDate]["muscleGoal"] = arrayOfResults[1].data.results[0]
-                $scope.exerciseData[TuesdayMondayDate]["durationGoal"] = arrayOfResults[1].data.results[1]
-                $scope.exerciseData[WednesdayDate]["muscleGoal"] = arrayOfResults[2].data.results[0]
-                $scope.exerciseData[WednesdayDate]["durationGoal"] = arrayOfResults[2].data.results[1]
-                $scope.exerciseData[ThursdayDate]["muscleGoal"] = arrayOfResults[3].data.results[0]
-                $scope.exerciseData[ThursdayDate]["durationGoal"] = arrayOfResults[3].data.results[1]
-                $scope.exerciseData[FridayDate]["muscleGoal"] = arrayOfResults[4].data.results[0]
-                $scope.exerciseData[FridayDate]["durationGoal"] = arrayOfResults[4].data.results[1]
-                $scope.exerciseData[SaturdayDate]["muscleGoal"] = arrayOfResults[5].data.results[0]
-                $scope.exerciseData[SaturdayDate]["durationGoal"] = arrayOfResults[5].data.results[1]
-                $scope.exerciseData[SundayDate]["muscleGoal"] = arrayOfResults[6].data.results[0]
-                $scope.exerciseData[SundayDate]["durationGoal"] = arrayOfResults[6].data.results[1]
+            $q.all([Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday]).then(function(arrayOfResults){
+                $scope.exerciseData[MondayDate]["exerciseGoal"] = arrayOfResults[0].data.results
+                $scope.exerciseData[TuesdayDate]["exerciseGoal"] = arrayOfResults[1].data.results
+                $scope.exerciseData[WednesdayDate]["exerciseGoal"] = arrayOfResults[2].data.results
+                $scope.exerciseData[ThursdayDate]["exerciseGoal"] = arrayOfResults[3].data.results
+                $scope.exerciseData[FridayDate]["exerciseGoal"] = arrayOfResults[4].data.results
+                $scope.exerciseData[SaturdayDate]["exerciseGoal"] = arrayOfResults[5].data.results
+                $scope.exerciseData[SundayDate]["exerciseGoal"] = arrayOfResults[6].data.results
                 
                 console.log($scope.exerciseData)
+                console.log($scope.exerciseData[MondayDate])
                 $scope.buildChart()
             })
             
