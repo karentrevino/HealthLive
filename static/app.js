@@ -15,6 +15,7 @@ HealthLive.config(function($stateProvider, $urlRouterProvider, IdleProvider, Kee
    .state('home', {
         url: '/home',
         templateUrl: "static/app/components/home/homeView.html",
+	   controller: 'homeController'
    })
 
    .state('exercise', {

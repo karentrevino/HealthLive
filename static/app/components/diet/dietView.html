@@ -4,7 +4,7 @@
 		<br>
 		
 		<div class="col-md-5">
-			<h3>Diet - Week Overview</h3><br><br>
+			<h3><span class="fa fa-cutlery " style="color:#9c27b0"></span> Diet - Week Overview</h3><br><br>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					Calories Consumed Per Day
@@ -43,9 +43,7 @@
 							<btn class="btn btn-primary"  ng-show="calorieMode=='edit'" ng-click="saveCalories(day,editData.calories)" ><span class="fa fa-save"></btn>
 							<btn class="btn btn-primary" ng-show="calorieMode=='add'" ng-click="addCalories(day,editData.calories)"><span class="fa fa-save"></btn>
 						</div>
-						
-
-						<br><hr>
+						<hr>
 						
 						<table class="table table-striped table-bordered table-hover dataTables-example"> 
 					        <thead>
@@ -89,11 +87,24 @@
 											</tr>
 											<tr>
 												<td>Type</td>
-												<td> <input type="text" class="form-control"  placeholder="Type" ng-model="editData.type"></td>
+												<td> 
+												    <select ng-model="editData.type" class="form-control">
+												      <option value="breakfast">breakfast</option> 
+												      <option value="lunch">lunch</option> 
+												      <option value="dinner">dinner</option>
+													  <option value="other">other</option>
+												    </select>
+												
+												</td>
 											</tr>
 											<tr>
 												<td>Food or Drink</td>
-												<td> <input type="text" class="form-control"  placeholder="Food or Drink" ng-model="editData.foodOrDrink"></td>
+												<td> 
+												    <select ng-model="editData.foodOrDrink" class="form-control">
+												      <option value="food">food</option>
+												      <option value="drink">drink</option>
+												    </select>
+												</td>
 											</tr>
 											<tr>
 												<td>Calories</td>

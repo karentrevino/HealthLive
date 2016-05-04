@@ -132,7 +132,7 @@ HealthLive.controller('dietController', ['$scope', '$location','$rootScope','$ht
 		}
 		
 		$scope.saveCalories = function(date,caloriesGoal){
-		    $http.get('/api/editCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(date).utc().format('YYYY-MM-DD HH:mm:ss'),"CaloriesGoal":caloriesGoal}
+		    $http.get('/api/editCaloriesGoal', {params: {"User_ID": $rootScope.user.user_id,"Date": moment(date).format('YYYY-MM-DD HH:mm:ss'),"CaloriesGoal":caloriesGoal}
 		    }).success(function(data, status, headers, config) {
 				
 				$scope.calorieMode=""
