@@ -65,7 +65,7 @@ CREATE TABLE `caloriegoal` (
 
 LOCK TABLES `caloriegoal` WRITE;
 /*!40000 ALTER TABLE `caloriegoal` DISABLE KEYS */;
-INSERT INTO `caloriegoal` VALUES ('2016-04-27 02:43:49',1800,1),('2016-04-27 03:47:35',1500,1),('2016-04-30 00:32:27',1500,1),('2016-05-02 00:32:27',1500,1),('2016-05-02 03:47:35',1300,1),('2016-05-03 00:32:27',1200,1),('2016-05-04 03:47:35',1150,1);
+INSERT INTO `caloriegoal` VALUES ('2016-04-27 02:43:49',1800,1),('2016-04-27 03:47:35',1500,1),('2016-04-30 00:32:27',1500,1),('2016-05-02 00:32:27',1500,1),('2016-05-02 03:47:35',1300,1),('2016-05-03 00:32:27',1200,1),('2016-05-04 03:47:35',1150,1),('2016-05-08 01:18:58',5,1);
 /*!40000 ALTER TABLE `caloriegoal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,7 +121,7 @@ CREATE TABLE `exercisegoal` (
 
 LOCK TABLES `exercisegoal` WRITE;
 /*!40000 ALTER TABLE `exercisegoal` DISABLE KEYS */;
-INSERT INTO `exercisegoal` VALUES ('2016-05-01 06:05:00','legs',2,1),('2016-05-02 06:01:08','butt',1,1),('2016-05-02 06:02:03','butt',8,1),('2016-05-02 08:47:29','lats',1.2,1),('2016-05-02 09:26:00','abs',2,1),('2016-05-03 06:04:01','\"legs\"',2,1),('2016-05-04 06:00:00','arms',1.5,1),('2016-05-05 06:25:00','cardio',0.5,1),('2016-05-06 06:01:00','shoulders',1.5,1),('2016-05-07 06:08:00','chest',1,1),('2016-05-08 06:04:00','legs',2,1);
+INSERT INTO `exercisegoal` VALUES ('2016-05-01 06:05:00','legs',2,1),('2016-05-02 06:01:08','arms',4,1),('2016-05-02 06:02:03','arms',4,1),('2016-05-02 08:47:29','arms',4,1),('2016-05-02 09:26:00','arms',4,1),('2016-05-02 16:05:46','arms',4,1),('2016-05-03 06:04:01','arms',4,1),('2016-05-04 06:00:00','arms',1.5,1),('2016-05-05 06:25:00','cardio',0.5,1),('2016-05-06 06:01:00','shoulders',1.5,1),('2016-05-07 06:08:00','chest',1,1),('2016-05-08 06:04:00','legs',2,1);
 /*!40000 ALTER TABLE `exercisegoal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -168,8 +168,8 @@ CREATE TABLE `medicine` (
   `name` varchar(100) DEFAULT NULL,
   `frequency` varchar(45) DEFAULT NULL,
   `duration` varchar(45) DEFAULT NULL,
-  `startDate` date DEFAULT NULL,
-  `endDate` date DEFAULT NULL,
+  `startDate` varchar(45) DEFAULT NULL,
+  `endDate` varchar(45) DEFAULT NULL,
   `userID` int(11) DEFAULT NULL,
   PRIMARY KEY (`date`),
   KEY `medicine_1_idx` (`userID`),
@@ -183,7 +183,7 @@ CREATE TABLE `medicine` (
 
 LOCK TABLES `medicine` WRITE;
 /*!40000 ALTER TABLE `medicine` DISABLE KEYS */;
-INSERT INTO `medicine` VALUES ('2016-04-26 08:00:00','Claritin 24-Hour','1','3 weeks','2016-04-26','2016-05-17',1);
+INSERT INTO `medicine` VALUES ('2016-04-26 08:00:00','Dayquil','2','daily','March 30, 2016','May 14, 2016',1),('2016-05-01 01:19:25','tylenol','twice a day','1 day','today','today',1),('2016-05-02 01:20:25','Claritin','twice a day','10 days','Today','May 12th, 2016',1),('2016-05-03 01:14:19','Pamprin','once a day','10 days','Today','May 12th, 2016',1),('2016-05-03 08:00:00','Pamprin','once a day','10 days','Today','May 12th, 2016',1),('2016-05-04 01:19:25','Claritin','once a day','10 days','May 2nd, 2016','May 12th, 2016',1),('2016-05-05 01:19:25','Pamprin','once a day','today','today','today',1),('2016-05-06 01:19:25','Claritin','once a day','10 days','May 2nd, 2016','May 12th, 2016',1),('2016-05-07 01:19:25','Claritin','once a day','10 days','May 2nd, 2016','May 12th, 2016',1),('2016-05-08 01:19:25','Claritin','once a day','10 days','May 2nd, 2016','May 12th, 2016',1);
 /*!40000 ALTER TABLE `medicine` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -196,7 +196,7 @@ DROP TABLE IF EXISTS `medicine_intake`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `medicine_intake` (
   `date` datetime NOT NULL,
-  `taken` int(11) DEFAULT '0',
+  `taken` varchar(45) DEFAULT NULL,
   `userID` int(11) DEFAULT NULL,
   PRIMARY KEY (`date`),
   KEY `med_intake_1_idx` (`userID`),
@@ -210,7 +210,7 @@ CREATE TABLE `medicine_intake` (
 
 LOCK TABLES `medicine_intake` WRITE;
 /*!40000 ALTER TABLE `medicine_intake` DISABLE KEYS */;
-INSERT INTO `medicine_intake` VALUES ('2016-04-26 08:15:00',1,1);
+INSERT INTO `medicine_intake` VALUES ('2016-04-26 08:15:00','yes',1),('2016-05-01 08:00:00','yes',1),('2016-05-02 08:00:00','no',1),('2016-05-02 20:48:48','yes',1),('2016-05-03 08:00:00','yes',1),('2016-05-04 08:00:00','yes',1),('2016-05-05 08:00:00','no',1),('2016-05-06 08:00:00','no',1),('2016-05-07 08:00:00','yes',1),('2016-05-08 08:00:00','no',1);
 /*!40000 ALTER TABLE `medicine_intake` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,4 +281,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-03  1:27:05
+-- Dump completed on 2016-05-03 22:05:22
