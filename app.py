@@ -4,6 +4,8 @@ from API.Queries import Exercise
 from API.Queries import Sleep
 from API.Queries import Users
 from API.Queries import Diet
+from API.Queries import  Medicine
+#from API.Queries import Alcohol
 import httplib
 
 app = flask.Flask(__name__)
@@ -304,6 +306,97 @@ def add_exercise_goal():
 	updated = Exercise.add_exercise_goal_data(userID,date,muscleGoal,durationGoal)
 
 	return jsonify(results=updated)    
+
+# ------ MEDICINE APIs -----------
+#medicine daily intake
+
+@app.route ('/api/getMedData', methods=['GET'])
+def get_med_data():
+	date = request.args['Date']
+	print("------------------" + date)
+	userID = request.args['User_ID']
+
+    
+	medData = Medicine.get_med_data(userID, date)
+	totalMed = []
+	dailyMed={'date': "", "taken": "", 'displayDate': date}
+    
+	for med in medData:
+		dailyMed={'date': "", "taken": "", 'displayDate': date}
+		dailyMed['date'] = med[0]
+		dailyMed['taken'] = med[1]
+		totalMed.append(dailyMed)
+
+	print("drugssss!!!", totalMed)
+	return jsonify(results=totalMed)
+
+@app.route ('/api/addMedData', methods=['GET'])
+def add_med_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	taken = request.args['Taken']
+
+	updated = Medicine.add_med_data(userID,date,taken)
+
+	return jsonify(updated)
+
+@app.route ('/api/editMedData', methods=['GET'])
+def edit_med_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	taken = request.args['Taken']
+
+	updated = Medicine.edit_med_data(userID,date,taken)
+
+	return jsonify(updated)
+
+#new meds
+@app.route ('/api/getNewMed', methods=['GET'])
+def get_new_med():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+
+	newMedData = Medicine.get_new_med_data(userID, date)
+	for n in newMedData:
+		med = n
+
+	m = {
+		'name': med[0],
+		'frequency': med[1],
+		'duration': med[2],
+		'startDate': med[3],
+		'endDate': med[4]
+	}
+	return jsonify(results=m)
+
+@app.route ('/api/editNewMed', methods=['GET'])
+def edit_new_med():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	name = request.args['Name']
+	frequency = request.args['Frequency']
+	duration = request.args['Duration']
+	startDate = request.args['StartDate']
+	endDate = request.args['EndDate']
+    
+	updated = Medicine.edit_new_med_data(userID,date,name,frequency,duration,startDate,endDate)
+
+	return jsonify(results=updated)
+
+@app.route ('/api/addNewMed', methods=['GET'])
+def add_new_med():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	name = request.args['Name']
+	frequency = request.args['Frequency']
+	duration = request.args['Duration']
+	startDate = request.args['StartDate']
+	endDate = request.args['EndDate']
+
+	updated = Medicine.add_new_med_data(userID,date,name,frequency,duration,startDate,endDate)
+
+	return jsonify(results=updated)    
+
 
 #############################################
     

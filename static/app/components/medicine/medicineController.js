@@ -1,4 +1,4 @@
-HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope','$http','$q','$cookies','$cookieStore',
+HealthLive.controller('medicineController', ['$scope', '$location','$rootScope','$http','$q','$cookies','$cookieStore',
     function($scope,$location,$rootScope,$http,$q,$cookies,$cookieStore, Idle) {
         $scope.labels = [];
 
@@ -6,7 +6,7 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
         $scope.colours = [{
             fillColor: '#9c27b0'
         }];
-        $scope.exerciseTemplate = {'date': "", "exerciseName": "", 'muscleGroup':"", "duration": ""}
+        $scope.medTemplate = {'date': "", "taken": ""}
 
         if($cookieStore.get('logged')){
             $rootScope.logged=true;
@@ -21,7 +21,7 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
         //console.log($scope.lastMonday)
         
         $scope.buildData= function(mondayDate){
-            $scope.exerciseData = {}
+            $scope.medData = {}
             //console.log(moment().day(1).format("YYYY-MM-DD HH:mm:ss"))
             
             var MondayDate = moment(mondayDate).day(1).format("YYYY-MM-DD HH:mm:ss")
@@ -34,52 +34,52 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
             
             
             //console.log(moment(mondayDate).day("Monday").toDate())
-            var Monday = $http.get('/api/getExerciseData', {
+            var Monday = $http.get('/api/getMedData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": MondayDate,}})
-            var Tuesday = $http.get('/api/getExerciseData', {
+            var Tuesday = $http.get('/api/getMedData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": TuesdayDate,}})
-            var Wednesday = $http.get('/api/getExerciseData', {
+            var Wednesday = $http.get('/api/getMedData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": WednesdayDate,}})
-            var Thursday = $http.get('/api/getExerciseData', {
+            var Thursday = $http.get('/api/getMedData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": ThursdayDate,}})
-            var Friday = $http.get('/api/getExerciseData', {
+            var Friday = $http.get('/api/getMedData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": FridayDate,}})
-            var Saturday = $http.get('/api/getExerciseData', {
+            var Saturday = $http.get('/api/getMedData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": SaturdayDate,}})
-            var Sunday = $http.get('/api/getExerciseData', {
+            var Sunday = $http.get('/api/getMedData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": SundayDate,}})
             
             $q.all([Monday,Tuesday,Wednesday, Thursday,Friday,Saturday,Sunday]).then(function(arrayOfResults){
-                $scope.exerciseData[MondayDate] = arrayOfResults[0].data
-                $scope.exerciseData[TuesdayDate] = arrayOfResults[1].data
-                $scope.exerciseData[WednesdayDate] = arrayOfResults[2].data
-                $scope.exerciseData[ThursdayDate] = arrayOfResults[3].data
-                $scope.exerciseData[FridayDate] = arrayOfResults[4].data
-                $scope.exerciseData[SaturdayDate] = arrayOfResults[5].data
-                $scope.exerciseData[SundayDate] = arrayOfResults[6].data
+                $scope.medData[MondayDate] = arrayOfResults[0].data
+                $scope.medData[TuesdayDate] = arrayOfResults[1].data
+                $scope.medData[WednesdayDate] = arrayOfResults[2].data
+                $scope.medData[ThursdayDate] = arrayOfResults[3].data
+                $scope.medData[FridayDate] = arrayOfResults[4].data
+                $scope.medData[SaturdayDate] = arrayOfResults[5].data
+                $scope.medData[SundayDate] = arrayOfResults[6].data
                 
-                console.log($scope.exerciseData)
+                console.log($scope.medData)
                 //$scope.buildChart()
-                $scope.getExerciseGoal(mondayDate)
+                $scope.getNewMed(mondayDate)
             })
             
         }
         
-        $scope.getExerciseGoal = function(mondayDate){
+        $scope.getNewMed = function(mondayDate){
             
             
             var MondayDate = moment(mondayDate).day(1).format("YYYY-MM-DD HH:mm:ss")
@@ -92,48 +92,48 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
             
             
             //console.log(moment(mondayDate).day("Monday").toDate())
-            var Monday = $http.get('/api/getExerciseGoal', {
+            var Monday = $http.get('/api/getNewMed', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": MondayDate,}}
                 )
             console.log(Monday)
-            var Tuesday = $http.get('/api/getExerciseGoal', {
+            var Tuesday = $http.get('/api/getNewMed', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": TuesdayDate,}})
-            var Wednesday = $http.get('/api/getExerciseGoal', {
+            var Wednesday = $http.get('/api/getNewMed', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": WednesdayDate,}})
-            var Thursday = $http.get('/api/getExerciseGoal', {
+            var Thursday = $http.get('/api/getNewMed', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": ThursdayDate,}})
-            var Friday = $http.get('/api/getExerciseGoal', {
+            var Friday = $http.get('/api/getNewMed', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": FridayDate,}})
-            var Saturday = $http.get('/api/getExerciseGoal', {
+            var Saturday = $http.get('/api/getNewMed', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": SaturdayDate,}})
-            var Sunday = $http.get('/api/getExerciseGoal', {
+            var Sunday = $http.get('/api/getNewMed', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": SundayDate,}})
             
             $q.all([Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday]).then(function(arrayOfResults){
-                $scope.exerciseData[MondayDate]["exerciseGoal"] = arrayOfResults[0].data.results
-                $scope.exerciseData[TuesdayDate]["exerciseGoal"] = arrayOfResults[1].data.results
-                $scope.exerciseData[WednesdayDate]["exerciseGoal"] = arrayOfResults[2].data.results
-                $scope.exerciseData[ThursdayDate]["exerciseGoal"] = arrayOfResults[3].data.results
-                $scope.exerciseData[FridayDate]["exerciseGoal"] = arrayOfResults[4].data.results
-                $scope.exerciseData[SaturdayDate]["exerciseGoal"] = arrayOfResults[5].data.results
-                $scope.exerciseData[SundayDate]["exerciseGoal"] = arrayOfResults[6].data.results
+                $scope.medData[MondayDate]["newMed"] = arrayOfResults[0].data.results
+                $scope.medData[TuesdayDate]["newMed"] = arrayOfResults[1].data.results
+                $scope.medData[WednesdayDate]["newMed"] = arrayOfResults[2].data.results
+                $scope.medData[ThursdayDate]["newMed"] = arrayOfResults[3].data.results
+                $scope.medData[FridayDate]["newMed"] = arrayOfResults[4].data.results
+                $scope.medData[SaturdayDate]["newMed"] = arrayOfResults[5].data.results
+                $scope.medData[SundayDate]["newMed"] = arrayOfResults[6].data.results
                 
-                console.log($scope.exerciseData)
-                console.log($scope.exerciseData[MondayDate])
+                console.log($scope.medData)
+                console.log($scope.medData[MondayDate])
                 $scope.buildChart()
             })
             
@@ -142,40 +142,50 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
         $scope.buildChart = function(){
             $scope.labels = [];
             $scope.data = [[]];
-            for(var index in $scope.exerciseData){
-                var totalDuration = 0
-                $scope.labels.push(moment($scope.exerciseData[index].results.displayData).format('MMM D'))
-                for(var subind in $scope.exerciseData[index].results){
-                    totalDuration = totalDuration + parseFloat($scope.exerciseData[index].results[subind].duration)
+            for(var index in $scope.medData){
+                var totalFreq = 0
+                $scope.labels.push(moment($scope.medData[index].results.displayData).format('MMM D'))
+                for(var subind in $scope.medData[index].results){
+                    totalFreq = totalFreq + parseInt($scope.medData[index].results[subind].frequency)
                 }
-                $scope.data[0].push(parseFloat(totalDuration))
+                $scope.data[0].push(parseInt(totalFreq))
             }
         }
         
-        $scope.exerciseEditMode = function(day,muscleGoal,durationGoal){
+        $scope.medEditMode = function(day,name,frequency,duration,startDate,endDate){
             $scope.editData = {}
             $scope.editData["displayDate"] = day
-            if( muscleGoal == null || durationGoal == null){
+            if( name == null || frequency == null || duration == null || startDate == null || endDate == null)
+            {
                 $scope.exMode = "add"
-                $scope.editData["muscleGoal"] = ""
-                $scope.editData["durationGoal"] = 0.0
+                $scope.editData["name"] = ""
+                $scope.editData["frequency"] = 0
+                $scope.editData["duration"] = ""
+                $scope.editData["startDate"] = ""
+                $scope.editData["endDate"] = ""
             }
             else{
                 
-                $scope.editData["muscleGoal"] = muscleGoal
-                $scope.editData["durationGoal"] = durationGoal
+                $scope.editData["name"] = name
+                $scope.editData["frequency"] = frequency
+                $scope.editData["duration"] = duration
+                $scope.editData["startDate"] = startDate
+                $scope.editData["endDate"] = endDate
                 $scope.exMode = "edit"
                 
             }
         }
         
-        $scope.saveExerciseGoals = function(date,muscleGoal,durationGoal){
-            $http.get('/api/editExerciseGoal', {
+        $scope.saveNewMeds = function(date,name,frequency,duration,startDate,endDate){
+            $http.get('/api/editNewMed', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": moment(date).format('YYYY-MM-DD HH:mm:ss'),
-                    "MuscleGoal":muscleGoal,
-                    "DurationGoal":durationGoal}
+                    "Name": name,
+                    "Frequency": frequency,
+                    "Duration": duration,
+                    "StartDate": startDate,
+                    "EndDate": endDate}
             }).success(function(data, status, headers, config) {
                 
                 $scope.exMode=""
@@ -185,13 +195,16 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
             
         }
         
-        $scope.addExerciseGoal = function(date,muscleGoal,durationGoal){
-            $http.get('/api/addExerciseGoal', {
+        $scope.addNewMed = function(date,name,frequency,duration,startDate,endDate){
+            $http.get('/api/addNewMed', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": moment(date).utc().format('YYYY-MM-DD HH:mm:ss'),
-                    "MuscleGoal":muscleGoal,
-                    "DurationGoal":durationGoal}
+                    "Name": name,
+                    "Frequency": frequency,
+                    "Duration": duration,
+                    "StartDate": startDate,
+                    "EndDate": endDate}
             }).success(function(data, status, headers, config) {
                 $scope.buildData($scope.lastMonday)
                 $scope.exMode=""
@@ -212,19 +225,18 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
             $scope.buildData($scope.lastMonday)
         }
         
-        $scope.editMode = function(exercise){
-            console.log("edit", exercise)
-            $scope.editData=exercise
+        $scope.editMode = function(med){
+            console.log("edit", med)
+            $scope.editData=med
             $scope.mode="edit"
         }
         
         $scope.saveData = function(){
-            $http.get('/api/editExerciseData', {
+            $http.get('/api/editMedData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": moment($scope.editData.date).utc().format('YYYY-MM-DD HH:mm:ss'),
-                    "MuscleGroup":$scope.editData.muscleGroup, 
-                    "Duration":$scope.editData.duration 
+                    "Taken":$scope.editData.taken
                     }
             }).success(function(data, status, headers, config) {
                 console.log($scope.editData.date)
@@ -238,7 +250,7 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
         }
         $scope.addMode=function(day){
             console.log(day)
-            $scope.editData = angular.copy($scope.exerciseTemplate)
+            $scope.editData = angular.copy($scope.medTemplate)
             $scope.editData.displayDate = day
             $scope.editData.date = $scope.editData.displayDate
             console.log($scope.editData)
@@ -247,12 +259,11 @@ HealthLive.controller('exerciseController', ['$scope', '$location','$rootScope',
         
         $scope.addData = function(){
             var current = moment()
-            $http.get('/api/addExerciseData', {
+            $http.get('/api/addMedData', {
                 params: {
                     "User_ID": $rootScope.user.user_id,
                     "Date": moment($scope.editData.displayDate).hour(current.hour()).minute(current.minutes()).seconds(current.seconds()).format('YYYY-MM-DD HH:mm:ss'),
-                    "MuscleGroup":$scope.editData.muscleGroup, 
-                    "Duration":$scope.editData.duration}
+                    "Taken":$scope.editData.taken}
             }).success(function(data, status, headers, config) {
                 console.log(data)
                 $scope.editData={}
