@@ -1,0 +1,110 @@
+<div class="container">
+	
+	<div class="row">
+		
+		<div class="col-md-2">
+		</div>
+		
+		<div class="col-md-8">
+			<h3><span class="fa fa-beer " style="color:#ff9800"></span> Alcohol - Week Overview</h3><br><br>
+
+			<div class="alert alert-warning" role="alert" ng-show="alcoholData[todayString].results.length >3">
+			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			  <span>Alert: You've had more than 3 drinks today, please be careful!</span>
+			</div>
+			
+			<button class="btn btn-warning pull-right" ng-click="nextWeek()">Next Week</button>
+			<button class="btn btn-warning" ng-click="lastWeek()"> Previous Week</button><br><br>
+		    <table class="table table-striped table-bordered table-hover" >
+		        <thead>
+		        <tr>
+		            <th>Date</th>
+		            <th>Data</th>
+		        </tr>
+		        </thead>
+		        <tbody>
+		        <tr ng-repeat="(day,data) in alcoholData | orderBy:'displayDate'">
+		            <td><b>{{day| amDateFormat: 'dddd, MMMM Do'}}</b></td>
+		            <td>
+						
+						<table class="table table-striped table-bordered table-hover dataTables-example"> 
+					        <thead>
+						        <tr>
+						            <th>Type</th>
+						            <th>Amount</th>
+									<th>Alcohol by Volume</th>
+									<th>Edit</th>
+						        </tr>
+					        </thead>
+							<tbody>
+								<tr ng-repeat="alcohol in data.results">
+									<td>{{alcohol.type}}</td>
+									<td>{{alcohol.amount}}</td>
+									<td>{{alcohol.alcByVol}}</td>
+									<td><button class="btn btn-primary" ng-click="editMode(alcohol)"><span class="fa fa-edit"></span></button></td>
+								</tr>
+							</tbody>
+						</table>
+						
+							<div  class="panel panel-default" ng-show="(mode == 'add' || mode =='edit') && day == editData.displayDate ">
+								<div class="panel-heading"><span ng-show="mode == 'add'">Add</span><span ng-show="mode == 'edit'">Edit</span></div>
+								<div class="panel-body form-inline">
+								    <div class="form-group">
+								      <label class="col-lg-12 control-label">Date: {{editData.date | date}}</label>
+								    </div>
+									
+									<table class="table table-striped table-bordered">
+										<tbody>
+											<tr>
+												<td>Type</td>
+												<td> <input type="text" class="form-control"  placeholder="type" ng-model="editData.type"></td>
+											</tr>
+											<tr>
+												<td>Amount</td>
+												<td> <input type="text" class="form-control"  placeholder="amount" ng-model="editData.amount"></td>
+											</tr>
+											<tr>
+												<td>Alcohol by Volume</td>
+												<td> <input type="text" class="form-control"  placeholder="alc by volume" ng-model="editData.alcByVol"></td>
+											</tr>
+										</tbody>
+										
+									</table>
+									
+					
+									<div class="text-center">
+										<btn class="btn btn-success"  ng-show="mode == 'edit'" ng-click="saveData()">Edit</btn>
+										<btn class="btn btn-success" ng-show="mode == 'add'" ng-click="addData()">Add</btn>
+										<btn class="btn btn-danger"> Cancel </btn>
+				
+									</div>
+								</div>
+							</div>
+					
+						
+						<button class="btn btn-success" ng-click="addMode(day)"><span class="fa fa-plus"></span></button>
+						
+						
+					
+					</td>
+
+		        </tr>
+				
+		        </tbody>
+		    </table>
+			
+			<div class="alert alert-warning" role="alert">
+			  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+			  <span>GOVERNMENT WARNING:<br>
+				  (1) According to the Surgeon General, women should not drink alcoholic beverages during pregnancy because of the risk of birth defects.<br>
+
+				  (2) Consumption of alcoholic beverages impairs your ability to drive a car or operate machinery, and may cause health problems.<br></span>
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+
+	</div>
+	
+	
+</div>

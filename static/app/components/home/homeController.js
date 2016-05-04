@@ -208,8 +208,8 @@ HealthLive.controller('homeController', ['$scope', '$location','$rootScope','$ht
         $scope.medicinebuildData= function(mondayDate){
             $scope.medData = {}
             //console.log(moment().day(1).format("YYYY-MM-DD HH:mm:ss"))
-            
-            var MondayDate = moment(mondayDate).day(1).format("YYYY-MM-DD HH:mm:ss")
+            console.log("medicine today ", mondayDate)
+            var MondayDate = moment(mondayDate).format("YYYY-MM-DD HH:mm:ss")
             
             
             //console.log(moment(mondayDate).day("Monday").toDate())
@@ -230,13 +230,7 @@ HealthLive.controller('homeController', ['$scope', '$location','$rootScope','$ht
         $scope.getNewMed = function(mondayDate){
             
             
-            var MondayDate = moment(mondayDate).day(1).format("YYYY-MM-DD HH:mm:ss")
-            var TuesdayDate = moment(mondayDate).day(2).format("YYYY-MM-DD HH:mm:ss")
-            var WednesdayDate = moment(mondayDate).day(3).format("YYYY-MM-DD HH:mm:ss")
-            var ThursdayDate = moment(mondayDate).day(4).format("YYYY-MM-DD HH:mm:ss")
-            var FridayDate = moment(mondayDate).day(5).format("YYYY-MM-DD HH:mm:ss")
-            var SaturdayDate = moment(mondayDate).day(6).format("YYYY-MM-DD HH:mm:ss")
-            var SundayDate = moment(mondayDate).day(7).format("YYYY-MM-DD HH:mm:ss")
+            var MondayDate = moment(mondayDate).format("YYYY-MM-DD HH:mm:ss")
             
             
             //console.log(moment(mondayDate).day("Monday").toDate())
@@ -254,14 +248,29 @@ HealthLive.controller('homeController', ['$scope', '$location','$rootScope','$ht
             })
             
         }
+		
+		$scope.alcoholbuildData= function(mondayDate){
+			$scope.alcoholData = {}
+			var MondayDate = moment(mondayDate).format("YYYY-MM-DD HH:mm:ss")
+			//console.log(moment(mondayDate).day("Monday").toDate())
+			var Monday = $http.get('/api/getAlcoholData', {params: {"User_ID": $rootScope.user.user_id,"Date": MondayDate,}})
+			
+			$q.all([Monday]).then(function(arrayOfResults){
+				$scope.alcoholData[MondayDate]= arrayOfResults[0].data
+				console.log($scope.alcoholData)
+			})
+			
+		}
         
 		
 		
 		
 		$scope.todayDate = moment()
+		$scope.todayString = moment().format("YYYY-MM-DD HH:mm:ss")
 		$scope.lastMonday = $scope.todayDate.day("Monday")
 		$scope.dietbuildData($scope.lastMonday)
 		$scope.sleepbuildData($scope.lastMonday)
 		$scope.exercisebuildData($scope.lastMonday)
-		$scope.medicinebuildData($scope.lastMonday)
+		$scope.medicinebuildData(moment())
+		$scope.alcoholbuildData(moment())
 }]);

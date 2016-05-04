@@ -42,6 +42,12 @@ HealthLive.config(function($stateProvider, $urlRouterProvider, IdleProvider, Kee
       controller: 'medicineController'
    })
    
+   .state('alcohol', {
+      url: "/alcohol",
+      templateUrl: "static/app/components/alcohol/alcoholView.html",
+      controller: 'alcoholController'
+   })
+   
 
     
 	;

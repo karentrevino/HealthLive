@@ -5,6 +5,7 @@ from API.Queries import Sleep
 from API.Queries import Users
 from API.Queries import Diet
 from API.Queries import  Medicine
+from API.Queries import  Alcohol
 #from API.Queries import Alcohol
 import httplib
 
@@ -396,6 +397,59 @@ def add_new_med():
 	updated = Medicine.add_new_med_data(userID,date,name,frequency,duration,startDate,endDate)
 
 	return jsonify(results=updated)    
+    
+    
+#-------------- ALCOHOL APIs ----------------
+@app.route ('/api/getAlcoholData', methods=['GET'])
+def get_alcohol_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+
+    
+	alcoholData = Alcohol.get_alcohol_data(userID, date)
+	print(alcoholData)
+	alcohol_data = []
+	alcohol_day={'date': "", "amount": "", "type": "","alcByVol": "",'displayDate': date}
+    
+	for alcohol in alcoholData:
+		alcohol_day={'date': "", "amount": "", "type": "","alcByVol": "",'displayDate': date}
+		alcohol_day['date'] = alcohol[0]
+		alcohol_day['amount'] = alcohol[1]
+		alcohol_day['type'] = alcohol[2]
+		alcohol_day['alcByVol'] = alcohol[3]
+		alcohol_data.append(alcohol_day) 
+    
+	return jsonify(results= alcohol_data)
+
+@app.route ('/api/addAlcoholData', methods=['GET'])
+def add_alcohol_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	amount = request.args['Amount']
+	type = request.args['Type']
+	alcByVol = request.args['AlcByVol']
+
+    
+	check = Alcohol.add_alcohol_data(userID, date, amount,type,alcByVol)
+
+	return jsonify(check)
+
+@app.route ('/api/editAlcoholData', methods=['GET'])
+def edit_alcohol_data():
+	date = request.args['Date']
+	userID = request.args['User_ID']
+	amount = request.args['Amount']
+	type = request.args['Type']
+	alcByVol = request.args['AlcByVol']
+	print(date, userID, amount, type, alcByVol)
+    
+	check = Alcohol.edit_alcohol_data(userID, date, amount,type,alcByVol)
+
+	return jsonify(check)
+    
+
+
+    
 
 
 #############################################
