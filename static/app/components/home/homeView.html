@@ -83,7 +83,28 @@
   				</div>
 			  </div>
 			  <div class="panel-body">
-			    Panel content<br>
+			    
+				
+				<div ng-repeat="(day,data) in medData">
+					<div ng-repeat="med in data.results">
+						<div class="alert alert-danger" role="alert" ng-hide="med.taken == 'yes'">
+						  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						  <span>Alert: You still have to take your medicine for the day.</span>
+						  <br><b>Medicine: {{data.newMed.name}} </b>
+						</div>
+					
+						<div class="alert alert-success" role="alert" ng-show="med.taken == 'yes'">
+						  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+						  <span>Success: You have already taken your medicine for the day.</span>
+						  <br><b>Medicine: {{data.newMed.name}} </b>
+						</div>
+						
+					</div>
+
+				</div>
+				
+				
+				<br>
 				<a type="button" class="btn btn-danger pull-right">
 					Enter <span class="fa fa-arrow-right"></span>
 				</a>

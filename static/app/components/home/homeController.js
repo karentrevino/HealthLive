@@ -204,6 +204,56 @@ HealthLive.controller('homeController', ['$scope', '$location','$rootScope','$ht
                 $scope.exercisedata[0].push(parseFloat(totalDuration))
             }
         }
+		
+        $scope.medicinebuildData= function(mondayDate){
+            $scope.medData = {}
+            //console.log(moment().day(1).format("YYYY-MM-DD HH:mm:ss"))
+            
+            var MondayDate = moment(mondayDate).day(1).format("YYYY-MM-DD HH:mm:ss")
+            
+            
+            //console.log(moment(mondayDate).day("Monday").toDate())
+            var Monday = $http.get('/api/getMedData', {
+                params: {
+                    "User_ID": $rootScope.user.user_id,
+                    "Date": MondayDate,}})
+            $q.all([Monday]).then(function(arrayOfResults){
+                $scope.medData[MondayDate] = arrayOfResults[0].data
+                
+                console.log($scope.medData)
+                //$scope.buildChart()
+                $scope.getNewMed(mondayDate)
+            })
+            
+        }
+		
+        $scope.getNewMed = function(mondayDate){
+            
+            
+            var MondayDate = moment(mondayDate).day(1).format("YYYY-MM-DD HH:mm:ss")
+            var TuesdayDate = moment(mondayDate).day(2).format("YYYY-MM-DD HH:mm:ss")
+            var WednesdayDate = moment(mondayDate).day(3).format("YYYY-MM-DD HH:mm:ss")
+            var ThursdayDate = moment(mondayDate).day(4).format("YYYY-MM-DD HH:mm:ss")
+            var FridayDate = moment(mondayDate).day(5).format("YYYY-MM-DD HH:mm:ss")
+            var SaturdayDate = moment(mondayDate).day(6).format("YYYY-MM-DD HH:mm:ss")
+            var SundayDate = moment(mondayDate).day(7).format("YYYY-MM-DD HH:mm:ss")
+            
+            
+            //console.log(moment(mondayDate).day("Monday").toDate())
+            var Monday = $http.get('/api/getNewMed', {
+                params: {
+                    "User_ID": $rootScope.user.user_id,
+                    "Date": MondayDate,}}
+                )
+            
+            $q.all([Monday]).then(function(arrayOfResults){
+                $scope.medData[MondayDate]["newMed"] = arrayOfResults[0].data.results
+                
+                console.log($scope.medData)
+                console.log($scope.medData[MondayDate])
+            })
+            
+        }
         
 		
 		
@@ -213,4 +263,5 @@ HealthLive.controller('homeController', ['$scope', '$location','$rootScope','$ht
 		$scope.dietbuildData($scope.lastMonday)
 		$scope.sleepbuildData($scope.lastMonday)
 		$scope.exercisebuildData($scope.lastMonday)
+		$scope.medicinebuildData($scope.lastMonday)
 }]);

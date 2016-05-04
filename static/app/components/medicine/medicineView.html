@@ -3,7 +3,24 @@
     <div class="row">
         <br>
         
-        <div class="col-lg-12"><br><br>
+        <div class="col-lg-12">
+				<div ng-repeat="med in medData[todayString].results">
+					<div class="alert alert-danger" role="alert" ng-hide="med.taken == 'yes'">
+					  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					  <span>Alert: You still have to take your medicine for the day.</span>
+					  <br><b>Medicine: {{medData[todayString].newMed.name}} </b>
+					</div>
+				
+					<div class="alert alert-success" role="alert" ng-show="med.taken == 'yes'">
+					  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					  <span>Success: You have already taken your medicine for the day.</span>
+					  <br><b>Medicine: {{medData[todayString].newMed.name}} </b>
+					</div>
+					
+				</div>
+
+			
+			<h3><span class="fa fa-heartbeat " style="color:#cb171e"></span> Medicine - Week Overview</h3><br><br>
             
             <button class="btn btn-danger pull-right" ng-click="nextWeek()">Next Week</button>
             <button class="btn btn-danger" ng-click="lastWeek()"> Previous Week</button><br><br>

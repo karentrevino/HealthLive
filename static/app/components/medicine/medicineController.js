@@ -276,6 +276,7 @@ HealthLive.controller('medicineController', ['$scope', '$location','$rootScope',
 
         function init(){
             $scope.todayDate = moment()
+			$scope.todayString = moment($scope.todayDate).format("YYYY-MM-DD HH:mm:ss")
             $scope.lastMonday = $scope.todayDate.day("Monday")
             console.log($scope.lastMonday)
             $scope.buildData($scope.lastMonday)
