@@ -2,8 +2,13 @@
     
     <div class="row">
         <br>
-        
-        <div class="col-lg-12"><br><br>
+        <div class="col-lg-5">
+            <h3>Medicine - Week Overview</h3><br><br>
+
+        </div>
+    </div>
+    <div class="row"
+        <div class="col-lg-7"><br><br>
             
             <button class="btn btn-danger pull-right" ng-click="nextWeek()">Next Week</button>
             <button class="btn btn-danger" ng-click="lastWeek()"> Previous Week</button><br><br>
@@ -17,7 +22,7 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="(day,data) in medData | orderBy:'displayDate'">
-                    <td><b>{{day| amDateFormat: 'dddd, MMMM Do'}}</b></td>
+                    <td><b>{{day| amDateFormat: 'dddd, MMMM Do'}}</b><img src ="static/assets/images/med.png" class="img-responsive" width="20%"></img></td>
                     <td>
                         <div ng-hide="(exMode =='edit' || exMode == 'add') && day == editData.displayDate ">
                              <b>Medicine Name: {{data.newMed.name}}</b>
